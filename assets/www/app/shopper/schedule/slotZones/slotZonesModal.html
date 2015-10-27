@@ -1,0 +1,38 @@
+<!--slot-zones-modal-->
+<div class="modal " ng-controller="SlotZonesController as viewModel" >
+    <ion-header-bar class="bar-stable">
+        <h1 class="title">Choose Zones</h1>
+        <div class="buttons">
+            <button class="button button-clear" ng-click="viewModel.cancel()"><i class="icon ion-ios-close-empty"></i></button>
+        </div>
+    </ion-header-bar>
+    <ion-content class="has-header" has-bouncing="true" >
+        <div class="padding text-center">
+            <p class="faded">
+                Choose where you would like to work for {{viewModel.timeSlot.startHour}} - {{viewModel.timeSlot.endHour}}.
+            </p>
+        </div>
+        <ion-list>
+            <ion-item ng-click="viewModel.clickSlotZone(zone_slot)"
+                      ng-repeat="zone_slot in viewModel.zoneSlots" class="item item-checkbox">
+                <label class="checkbox" >
+                    <input ng-if="!zone_slot.loading" ng-model="zone_slot.claimed" type="checkbox">
+                    <ion-spinner ng-if="zone_slot.loading"></ion-spinner>
+                </label>
+                <small>
+                    {{zone_slot.zone_name}}
+                </small>
+                <p>
+                    {{zone_slot.remaining_slots}} Slots Remaining
+                </p>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+
+    <ion-footer-bar class="wrap footer-button-bar bar-stable">
+        <button ng-click="viewModel.cancel()"
+                class="button button-positive button-full">
+            Close
+        </button>
+    </ion-footer-bar>
+</div>

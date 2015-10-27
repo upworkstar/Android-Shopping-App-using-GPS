@@ -1,0 +1,63 @@
+
+<div class="modal simple-modal" ng-controller="AccountSetupController as viewModel" >
+    <ion-header-bar class="bar-stable">
+        <h1 class="title"></h1>
+        <div class="buttons">
+            <button class="button button-clear" ng-click="viewModel.signOutClick()">
+                Sign out
+            </button>
+        </div>
+    </ion-header-bar>
+    <ion-content class="intro-content shopper-account-setup" has-bouncing="true" >
+        <div class="padding text-center">
+            <h2 class="text-positive">
+                Grubrunner Setup
+            </h2>
+            <p class="faded">
+                Please complete these steps to start shopping!
+            </p>
+        </div>
+        <ion-list>
+            <ion-item ng-click="viewModel.pexCardClick()"
+                      class="item-icon-left item-icon-right">
+                <i class="icon faded"
+                   ng-class="viewModel.hasPexCardAdded() ? 'ion-ios-checkmark text-positive':'ion-ios-circle-outline faded' "></i>
+                <h2>
+                    Setup PEX Card
+                </h2>
+                <i class="icon ion-ios-arrow-right faded"></i>
+            </ion-item>
+            <ion-item ng-click="viewModel.bankAccountClick()"
+                      class="item-icon-left item-icon-right">
+                <i class="icon faded"
+                   ng-class="viewModel.hasBankAccountAdded() ? 'ion-ios-checkmark text-positive':'ion-ios-circle-outline faded' "></i>
+                <h2>
+                    Setup Bank Account Info
+                </h2>
+                <i class="icon ion-ios-arrow-right faded"></i>
+            </ion-item>
+            <ion-item ng-click="viewModel.shopperPictureClick()"
+                      class="item-icon-left item-icon-right">
+                <i class="icon"
+                   ng-class="viewModel.hasShopperPictureAdded() ? 'ion-ios-checkmark text-positive':'ion-ios-circle-outline faded' "></i>
+                <h2>
+                    Grubrunner Picture
+                </h2>
+                <p class="wrap">Picture should include your face, a selfie from the shoulders up wearing your Grubroll shirt works well.
+                    <a href="" stop-event="click" class="text-positive" ng-click="viewModel.showExamplePicture()"> View Example.</a></p>
+                <i class="icon ion-ios-arrow-right faded"></i>
+            </ion-item>
+        </ion-list>
+        <div class="padding text-center">
+            <br/>
+            <p class="faded" ng-if="!viewModel.allRequiredStepsCompleted()">
+                Finish your setup to continue.
+            </p>
+            <button class="button button-positive "
+                    ng-disabled="!viewModel.allRequiredStepsCompleted()"
+                    ng-click="viewModel.cancel()">
+                Done!
+            </button>
+        </div>
+    </ion-content>
+</div>

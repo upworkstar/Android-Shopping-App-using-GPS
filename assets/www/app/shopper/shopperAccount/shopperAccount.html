@@ -1,0 +1,104 @@
+<ion-view title="Account" ng-controller="ShopperAccountController as viewModel">
+    <ion-nav-buttons side="right">
+
+    </ion-nav-buttons>
+    <ion-content class="has-header darker-content" has-bouncing="true" >
+        <offline-message></offline-message>
+        <ion-list>
+            <div class=" history-list-separator">
+             <span style="padding:22px;"  class="faded padding">
+                 History
+            </span>
+            </div>
+            <a class="item item-icon-left item-icon-right"  href="#/app/deliveryHistory" >
+                <i class="icon ion-clock text-positive"></i>
+                <p>
+                    Your Delivery History
+                </p>
+                <i class="icon ion-ios-arrow-right faded"></i>
+            </a>
+
+            <div class=" history-list-separator">
+             <span style="padding:22px;"  class="faded padding">
+                 Payment
+            </span>
+            </div>
+
+            <div class="item item-icon-left item-icon-right"  ng-click="viewModel.showPexModal()">
+                <i class="icon ion-card text-positive"></i>
+                <p>
+                    Add New Pex Card
+                </p>
+                <i class="icon ion-ios-arrow-right faded"></i>
+            </div>
+            <div class="item item-icon-left item-icon-right"  ng-click="viewModel.editBankAccountInfo()">
+                <i class="icon ion-social-usd-outline text-positive"></i>
+                <p>
+                    Bank Account Info
+                </p>
+                <i class="icon ion-ios-arrow-right faded"></i>
+            </div>
+
+            <div class=" history-list-separator">
+             <span style="padding:22px;"  class="faded padding">
+                 Your Info
+            </span>
+            </div>
+            <div class="item item-thumbnail-left wrap">
+                <img ng-if="viewModel.user.image_url" ng-src="{{viewModel.user.image_url}}"/>
+                <button ng-if="!viewModel.imageUploading"  class="button button-positive wrap button-clear" ng-click="viewModel.takeShopperPicture()">
+                    Take/Update Your Picture
+                </button>
+                <p class="wrap">Picture should include your face, a selfie from the shoulders up wearing your Grubroll shirt works well.
+                    <a href="" class="text-positive" ng-click="viewModel.showExamplePicture()"> View Example.</a></p>
+                <div ng-if="viewModel.imageUploading" class="text-center">
+                    <ion-spinner></ion-spinner>
+                    <br/>
+                    Saving the image to your account...
+                </div>
+            </div>
+            <div class="item">
+                <p>
+                    <b>Name: </b>{{viewModel.user.name}}
+                </p>
+            </div>
+            <div class="item">
+                <p>
+                    <b>Id: </b>{{viewModel.user.id}}
+                </p>
+            </div>
+            <div class="item">
+                <p>
+                    <b>Email: </b>{{viewModel.user.email}}
+                </p>
+            </div>
+            <div class="item">
+                <p>
+                    <b>Metro Id: </b>{{viewModel.user.metro_id}}
+                </p>
+            </div>
+        </ion-list>
+
+        <br/>
+        <div class="padding text-center">
+            <button ng-click="viewModel.signoutClick()" class="button button-assertive">
+                Sign-out
+            </button>
+        </div>
+        <br/>
+
+    </ion-content>
+
+    <script id="image-modal.html" type="text/ng-template">
+        <div class="modal image-modal transparent"
+             ng-click="closeImageModal()">
+            <ion-slide-box on-slide-changed="viewModel.imageSlideChanged()"
+                           show-pager="false">
+                <ion-slide>
+                    <img class="fullscreen-image" image-lazy-src="{{viewModel.imageModalImageUrl}}" image-lazy-loader="dots">
+                </ion-slide>
+            </ion-slide-box>
+        </div>
+    </script>
+</ion-view>
+

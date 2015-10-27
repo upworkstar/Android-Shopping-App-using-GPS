@@ -1,0 +1,93 @@
+<ion-content >
+
+<div class="scroll-wrapper">
+    
+    <div class="page-header" style = "text-align:center;">
+        <h1>Membership Details</h1>
+    </div>
+      <!-- ngView:  -->
+    <!-- <div class="ng-scope"> -->
+    
+    <div class="container text-center not-trial ng-scope" ng-if="!viewModel.trial">
+    
+        <a href="" ng-click="chooseMemberPlan('monthly')" id = "monthly" style="text-decoration:none">
+            <div class="col-sm-6">
+                <div class="caller">
+                    <h4>
+                        <b class="ng-binding">
+                            Choose Monthly Plan
+                        </b>
+                    </h4>
+                    <i class="fa fa-chevron-right" ></i>
+                </div>
+                <div class="plan monthly">
+                    <div class="text-center">
+                        <h4 style="color:white;" class="ng-binding">Monthly MemberShip</h4>
+                        <h1 class="price ng-binding">$13.99 <small class="ng-binding">/ month</small></h1>
+                        <!-- <small class="ng-binding">MemberShipt</small> -->
+                    </div>
+                    <div class="text-left benefits-list">
+                        <ul>
+                            <li  class="ng-binding ng-scope">
+                                Minimum order is $30.00, any order below $30.00 will include a $7.00 fee.
+                            </li>
+                            <li  class="ng-binding ng-scope">
+                                Unlimited deliveries
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="text-center">
+                        <small>
+                            CANCEL AT ANY TIME!
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </a>
+        <a href="" ng-click="chooseMemberPlan('yearly')" id = "annual" style="text-decoration:none">
+            <div class="col-sm-6">
+                <div class="caller">
+                    <h4>
+                        <b class="ng-binding">
+                            Choose Annual Plan
+                        </b>
+                    </h4>
+                    <i class="fa fa-chevron-right"></i>
+                </div>
+                <div class="plan annual">
+                    <div class="text-center">
+                        <h4 style="color:white;" class="ng-binding">Annual MemberShip</h4>
+                        <h1 class="price ng-binding">$89.99 <small class="ng-binding">/ year</small></h1>
+                        <!-- <small class="ng-binding">MemberShipt</small> -->
+                    </div>
+                    <div class="text-left benefits-list">
+                        <ul>
+                            <li  class="ng-binding ng-scope">
+                                Minimum order is $30.00, any order below $30.00 will include a $7.00 fee.
+                            </li>
+                            <li  class="ng-binding ng-scope">
+                                Unlimited deliveries
+                            </li><!-- end ngRepeat: benefit in viewModel.annualPlan.benefits -->
+                        </ul>
+                    </div>
+                    <div class="text-center">
+                        <small>
+                            CANCEL AT ANY TIME!
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </a>
+            
+    </div>
+
+    <div class="page-header" style = "text-align:center;">
+        <h3>$10.99 per delivery without a membership</h3>
+        <h3>Minimum order is $30.00, any order below $30.00 will include a $7.00 fee.</h3>
+        <h4>Cancelations will be prorated.</h4>
+    </div>
+        <br/>
+        <br/>
+</div>
+</ion-content>
+

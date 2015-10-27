@@ -1,0 +1,102 @@
+<ion-view title="Delivery History" ng-controller="DeliveryHistoryController as viewModel">
+    <ion-nav-buttons side="right">
+            <button  class="button button-icon icon ion-ios-refresh-empty"
+                     ng-click="viewModel.reloadData()"></button>
+    </ion-nav-buttons>
+    <ion-content class="has-header darker-content" has-bouncing="true" >
+        <ion-refresher
+                pulling-text="Pull to refresh..."
+                on-refresh="viewModel.doRefresh()"
+                pulling-icon="ion-ios-arrow-down">
+        </ion-refresher>
+        <offline-message></offline-message>
+        <div class="text-center"
+             style="margin-top: 15%;"
+             ng-if="viewModel.showLoading">
+            <ion-spinner></ion-spinner>
+        </div>
+        <div class="text-center disabled"
+             style="margin-top: 15%;"
+             ng-if="!viewModel.showLoading && viewModel.historyOrders.length == 0 && !viewModel.offline">
+            <h1 class="faded">
+                <i class="icon ion-clock"></i>
+            </h1>
+            <h2 class="faded">
+                No Delivered Orders
+            </h2>
+
+        </div>
+        <div ng-if="!viewModel.showLoading && viewModel.historyOrders.length > 0">
+            <div class="history-list-separator">
+                <span class="faded padding">
+                    Your Stats
+                </span>
+            </div>
+            <ion-list>
+                <ion-item class="icon item-icon-left faded wrap" ng-if="viewModel.averageRating">
+                    <i class="icon ion-stats-bars text-positive"></i>
+                    <p class="wrap">
+                        Your Average grubrunner Rating: {{viewModel.averageRating.average | number:1}}
+                    </p>
+                </ion-item>
+                <ion-item class="icon item-icon-left faded wrap">
+                    <i class="icon ion-ios-analytics-outline text-positive"></i>
+                    <p class="wrap">
+                        You have delivered {{viewModel.totalCount}} orders total.
+                    </p>
+                </ion-item>
+                <ion-item class="icon item-icon-left faded wrap">
+                    <i class="icon ion-ios-analytics-outline text-positive"></i>
+                    <p class="wrap">
+                        {{viewModel.lastSevenDaysCount}} orders delivered in the last 7 days.
+                    </p>
+                </ion-item>
+                <ion-item class="icon item-icon-left faded wrap">
+                    <i class="icon ion-ios-analytics-outline text-positive"></i>
+                    <p class="wrap">
+                        {{viewModel.last14DaysCount}} orders delivered in the last 14 days.
+                    </p>
+                </ion-item>
+            </ion-list>
+        </div>
+
+        <ion-list>
+            <div ng-repeat="year in viewModel.years | orderBy:'-year'">
+                <ion-item class="item item-divider">
+                    Order and Payment History {{year.year}}
+                </ion-item >
+                <div ng-repeat="week in year.weeks | orderBy:'-start'">
+                    <div class="history-list-separator">
+                        <span style="padding:22px;"  class="faded padding">
+                            {{viewModel.getStartOfWeek(week)}} - {{viewModel.getEndOfWeek(week)}}
+                        </span>
+                        <br/>
+                        <span style="padding:22px;"  class="faded padding">
+                            Order Count: {{week.orders.length}}
+                        </span>
+                        <span style="padding:22px;"  class="faded padding">
+                            Total: {{viewModel.getTotalForWeek(week) | currency}}
+                        </span>
+                    </div>
+                    <ion-item class="item wrap"
+                              ng-repeat="order in week.orders | orderBy:'-delivered_at'">
+                        <p class="faded">
+                            Order #{{order.id}}
+                        </p>
+                        <p  class="faded wrap">Delivered: {{order.date_string}}</p>
+                        <p ng-if="order.order_pay_amount" class="faded">
+                            Order Pay: <b>{{order.order_pay_amount | currency}}</b>
+                        </p>
+                        <p ng-if="order.promo_pay_amount" class="faded">
+                            Promo Pay: <b>{{order.promo_pay_amount | currency}}</b>
+                        </p>
+                        <p ng-if="order.promo_pay_amount" class="faded">
+                            Total Order Pay: <b>{{(order.promo_pay_amount + order.order_pay_amount) | currency}}</b>
+                        </p>
+                        <p class="faded wrap">Order Amount: {{order.cost | currency}}</p>
+                    </ion-item>
+                </div>
+            </div>
+        </ion-list>
+    </ion-content>
+</ion-view>

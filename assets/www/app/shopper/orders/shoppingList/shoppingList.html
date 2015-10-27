@@ -1,0 +1,162 @@
+<ion-view view-title="Shopping List" ng-controller="ShoppingListController as viewModel">
+    <ion-nav-buttons side="right">
+        <button class="button-clear button" ng-click="viewModel.ordersClicked($event)">
+            Orders
+        </button>
+    </ion-nav-buttons>
+    <ion-content class="has-header" has-bouncing="true" >
+        <ion-list>
+            <div ng-repeat="category in viewModel.catNames">
+                <ion-item class="item-stable"
+                          ng-click="viewModel.toggleGroup(category)"
+                          ng-class="{active : viewModel.isGroupShown(category)}">
+                    <i class="icon"
+                       ng-class="viewModel.isGroupShown(category) ? 'ion-ios-minus-outline' : 'ion-ios-plus-outline'">
+                    </i>&nbsp;{{category.name}}
+                    <p class="dark light-weight" >
+                        <span ng-class="viewModel.getCategoryCountInCart(category) >= viewModel.getProductsForCategory(category).length ? 'positive' : 'assertive'">
+                            {{viewModel.getCategoryCountInCart(category)}}
+                        </span>
+                        of {{viewModel.getProductsForCategory(category).length}} products in cart.
+                    </p>
+                </ion-item>
+                <ion-item class="item item-thumbnail-left item-button-right item-accordion order-product-list-item"
+                          ng-class="(product.order_line.inCart && product.order_line.requested_qty <= product.order_line.actual_qty) || product.order_line.notFound  ? 'item-in-cart':''"
+                          on-hold="viewModel.onOrderLintHold(product.orderId)"
+                          ng-repeat="product in viewModel.getProductsForCategory(category)"
+                          ng-init="viewModel.addProductLineInit(product, category)"
+                          ng-click="viewModel.showItemDetail(product.order_line, product.orderId, product.customerName, product.backgroundColor, category);"
+                          ng-if="viewModel.isGroupShown(category)">
+
+
+                    <div class="in-cart-check-mark"
+                         ng-if="product.order_line.inCart && product.order_line.requested_qty <= product.order_line.actual_qty">
+
+                        <i class="icon ion-ios-checkmark" ></i>
+                    </div>
+                    <div class="in-cart-check-mark"
+                         ng-if="product.order_line.notFound">
+                        <i class="icon ion-ios-minus text-assertive" ></i>
+                    </div>
+
+                    <div ng-if="!viewModel.orderLineHasSub(product.order_line, product.orderId)">
+                        <p class="black product-item-name wrap">
+                            <span class="black" ng-if="product.order_line.requested_product.name">
+                                {{product.order_line.requested_product.brand_name}} {{product.order_line.requested_product.name}}
+                            </span>
+                            <span class="black" ng-if="product.order_line.requested_product.description">
+                                {{product.order_line.requested_product.description}}
+                            </span>
+                        </p>
+                        <p class="product-notes"  ng-if="product.order_line.notes">
+                            <small>Notes: </small><b>{{product.order_line.notes}}</b>
+                        </p>
+                        <span ng-if="product.order_line.requested_product.size">
+                            <small>Size: </small><b>{{product.order_line.requested_product.size}}</b>
+                            <br/>
+                        </span>
+                        <span>
+                            <small>Request Qty.: </small><b>{{product.order_line.requested_qty}}</b>
+                        </span>
+                        <br/>
+                        <span>
+                            <small>Your Qty.: </small><b>{{product.order_line.actual_qty}}</b>
+                        </span>
+
+                    </div>
+
+                    <div ng-if="viewModel.orderLineHasSub(product.order_line, product.orderId)">
+                        <p class="black product-item-name wrap">
+                            <span class="black" ng-if="product.order_line.actual_product.name">
+                                {{product.order_line.actual_product.brand_name}} {{product.order_line.actual_product.name}}
+                            </span>
+                            <span class="black" ng-if="product.order_line.actual_product.description">
+                                {{product.order_line.actual_product.description}}
+                            </span>
+                        </p>
+                        <p class="product-notes"  ng-if="product.order_line.notes">
+                            <small>Notes: </small><b>{{product.order_line.notes}}</b>
+                        </p>
+
+                        <span ng-if="product.order_line.actual_product.size">
+                            <small>Size: </small><b>{{product.order_line.actual_product.size}}</b>
+                            <br/>
+                        </span>
+                        <!--<span>-->
+                            <!--<small>Count: </small><b>{{product.order_line.requested_qty}}</b>-->
+                        <!--</span>-->
+                         <span ng-if="product.order_line.requested_product.product_type != 'by weight'">
+                            <small>Count: </small><b>{{product.order_line.requested_qty | number:0}}</b>
+                        </span>
+                        <span ng-if="product.order_line.requested_product.product_type == 'by weight'">
+                            <small>Count: </small><b>{{product.order_line.requested_qty | number:1}}</b>
+                        </span>
+                        <br/>
+                        <span>
+                            <small>You Have: </small><b>{{product.order_line.actual_qty}}</b>
+                        </span>
+                        <br/>
+                        <!--<span>-->
+                            <!--<small>Price: </small><b>{{viewModel.getPrice(product.order_line.actual_product) | currency}}</b>-->
+                        <!--</span>-->
+                        <!--<br/>-->
+                        <span class="assertive sub-item-name">
+                            <i class="ion ion-arrow-swap"></i> Sub. for {{product.order_line.requested_product.brand_name}} {{product.order_line.requested_product.name}}
+                        </span>
+                    </div>
+                    <p class="text-center order-info-denoter" style="background-color: {{product.backgroundColor}};">
+                        Order #{{product.orderId}}-{{product.customerName}}
+                    </p>
+                    <!--<div class="order-id-thing" style="background-color: {{product.backgroundColor}}">-->
+                    <!--</div>-->
+                </ion-item>
+            </div>
+        </ion-list>
+        <div ng-if="viewModel.shoppingListCount != null && viewModel.shoppingListCount == 0"
+             class="padding text-center" >
+            <h4>
+                No Orders In Shopping List
+            </h4>
+            <small>
+                You can add claimed orders to your shopping list by swiping the order in in the "Your Orders" list and click "Add to Shopping List" button.
+            </small>
+            <br/>
+            <br/>
+            <img class="example-image" ng-src="img/addToShoppingList.png" alt="Example Image"/>
+        </div>
+    </ion-content>
+
+
+    <script id="templates/shoppingListOrdersPopover.html" type="text/ng-template">
+        <ion-popover-view>
+            <ion-header-bar>
+                <h1 class="title">
+                    Orders in Shopping List
+                </h1>
+            </ion-header-bar>
+            <ion-content>
+                <ion-list class="list">
+                    <ion-item style="background-color:{{item.backgroundColor}}" class="item item-icon-right" ng-repeat="item in shoppingListOrders" ng-click="viewModel.clickOrder(item)">
+                        <p class="light">
+                            {{item.id}}-{{item.customer.name}}
+                        </p>
+                        <i class="icon icon-ios-arrow-right"></i>
+                    </ion-item>
+                </ion-list>
+            </ion-content>
+        </ion-popover-view>
+    </script>
+
+
+    <script id="image-modal.html" type="text/ng-template">
+        <div class="modal image-modal transparent"
+             ng-click="viewModel.closeImageModal()">
+            <ion-slide-box on-slide-changed="viewModel.imageSlideChanged()"
+                           show-pager="false">
+                <ion-slide>
+                    <img class="fullscreen-image" image-lazy-src="{{viewModel.imageModalImageUrl}}" image-lazy-loader="dots">
+                </ion-slide>
+            </ion-slide-box>
+        </div>
+    </script>
+</ion-view>

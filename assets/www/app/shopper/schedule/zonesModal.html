@@ -1,0 +1,46 @@
+<div class="modal">
+    <ion-header-bar class="bar-stable  item-input-inset">
+        <h1 class="title">Zones</h1>
+        <div class="buttons">
+            <button class="button button-clear" ng-click="viewModel.closeZonesModal()"><i class="icon ion-ios-close-empty"></i></button>
+        </div>
+    </ion-header-bar>
+
+    <ion-content class="darker-content">
+        <ion-list>
+            <ion-item class="item-divider slim wrap small" style="font-size: 95%;padding-top: 5px;">
+                Please select the zones that you would like to service. These zones are made up of one or many stores.
+                <a href="" class="positive" ng-click="viewModel.showZoneInfoModal()">What is this?</a>
+            </ion-item>
+            <ion-item ng-repeat="zone in viewModel.allZones | orderBy: '-id'"
+                      ng-click="viewModel.clickZone(zone)"
+                      ng-init="zone.showStores = false"
+                      class="item item-checkbox item-zone-checkbox-left item-button-right">
+                <button class="button button-clear icon ion-ios-information-outline" ng-click="viewModel.zoneInfoClick(zone)" ion-stop-event="click" stop-event="click">
+                </button>
+                <div class="checkbox"  >
+                    <!-- <input ng-if="!zone.loading" ng-model="zone.selected" disabled="disabled" type="checkbox"> -->
+                    <i ng-if="!zone.selected && !zone.loading" class="icon ion-ios-circle-outline"></i>
+                    <i ng-if="zone.selected && !zone.loading" class="icon ion-ios-checkmark"></i>
+                    <ion-spinner ng-if="zone.loading"></ion-spinner>
+                </div>
+                <p>{{zone.name}}</p>
+                <div class="store-locations-area" ng-if="zone.showStores">
+                    <p class="lead">Stores in this zone:</p>
+                    <div ng-repeat="location in zone.store_locations">
+                        <small>
+                            <b class="wrap">
+                                {{location.store}}, {{location.name}}
+                            </b>
+                            <p class="wrap address">
+                                {{location.street}}
+                                <br/>
+                                {{location.city}}, {{location.state}} {{location.zip}}
+                            </p>
+                        </small>
+                    </div>
+                </div>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</div>

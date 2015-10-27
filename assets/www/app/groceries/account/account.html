@@ -1,0 +1,54 @@
+<ion-view title="Account">
+    <ion-nav-buttons side="right">
+        <a class="button button-clear" ng-click="editAccount()">
+            Edit
+        </a>
+    </ion-nav-buttons>
+    <ion-content class="has-header" has-bouncing="true" >
+        <guest-account-callout ng-if="guest_account()"> </guest-account-callout>
+        <offline-message></offline-message>
+        <br/>
+        <h1 ng-if="customerInfo.name"
+            class="text-center">
+            {{customerInfo.name}}
+        </h1>
+        <p ng-if="customerInfo.phone"
+           class="text-center">
+            <span class="icon ion-ios-telephone-outline"> {{customerInfo.phone | tel}}</span>
+        </p>
+        <p ng-if="customerInfo.email"
+           class="text-center">
+            <span class="icon ion-ios-email-outline"> {{customerInfo.email}}</span>
+        </p>
+        <div class="list card">
+            <a ng-if="showSubscribeButton()"  href="/signup#/choosePlan/{{customerInfo.email}}" class="item item-positive item-icon-right">
+                Become a Grubroll Member
+                <i class="icon ion-ios-arrow-right"></i>
+            </a>
+            <a  ng-if="!showSubscribeButton()"  href="#/app/addressList" class="item item-icon-left item-icon-right">
+                <i class="icon ion-ios-home-outline"></i>
+                Address
+                <i class="icon ion-ios-arrow-right"></i>
+            </a>
+
+            <a ng-if="!showSubscribeButton()" href="#/app/cardList" class="item item-icon-left item-icon-right">
+                <i class="icon ion-card"></i>
+                Payment
+                <i class="icon ion-ios-arrow-right"></i>
+            </a>
+
+            <a ng-if="!showSubscribeButton()" href="#/app/orders" class="item item-icon-left item-icon-right">
+                <i class="icon ion-ios-albums-outline"></i>
+                Orders
+                <i class="icon ion-ios-arrow-right"></i>
+            </a>
+
+        </div>
+        <br/>
+        <div class="text-center">
+            <button ng-click="signoutClick()" class="button button-positive button-clear">
+                Sign Out
+            </button>
+        </div>
+    </ion-content>
+</ion-view>

@@ -1,0 +1,43 @@
+<div class="modal">
+    <ion-header-bar class="bar-stable">
+        <h1 class="title">Order Complete</h1>
+        <div class="buttons">
+            <button class="button button-clear" ng-click="viewModel.closeCompleteModal()"><i class="icon ion-ios-close-outline"></i></button>
+        </div>
+    </ion-header-bar>
+    <ion-content class="">
+        <div class="row responsive-sm">
+            <div class="col">
+                <div class="list  text-center wrap">
+                    <br/>
+                    <h1>Thanks!</h1>
+                    <p>Your order has been placed.</p>
+                </div>
+                <div class="padding text-center wrap">
+                    <p class="dark">
+                        Subtotal: <span class="black">{{viewModel.createdOrder.requested_subtotal | currency}}</span>
+                        <br/>Tax: <span class="black">{{(viewModel.createdOrder.requested_tax ? viewModel.createdOrder.requested_tax : 0) | currency}}</span>
+                        <br/>Delivery Fee: <span class="black">{{(viewModel.createdOrder.delivery_fee ? viewModel.createdOrder.delivery_fee : 0) | currency}}</span>
+                    </p>
+                    <h2 class="light-weight dark">Total: <span class="black">{{viewModel.createdOrder.total_with_tax | currency}}</span></h2>
+                </div>
+            </div>
+            <div class="col wrap" >
+                <div class="item item-divider">
+                    <p class="dark">Delivery Window:</p>
+                </div>
+                <div class="item">
+                    <p>{{viewModel.checkout.deliveryWindow.description}}</p>
+                </div>
+                <div class="item item-divider">
+                    <p class="dark">It will be delivered to you at:</p>
+                </div>
+                <div class="item">
+                    <p>{{viewModel.checkout.selectedAddress.street1}} {{viewModel.checkout.selectedAddress.street2}}</p>
+                    <p>{{viewModel.checkout.selectedAddress.city}}, {{viewModel.checkout.selectedAddress.state}} {{viewModel.checkout.selectedAddress.zip_code}}</p>
+                </div>
+            </div>
+        </div>
+
+    </ion-content>
+</div>

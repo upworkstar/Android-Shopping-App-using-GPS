@@ -1,0 +1,58 @@
+
+<div class="modal simple-modal" ng-controller="PexCardModalController as viewModel" >
+    <ion-header-bar class="bar-stable">
+        <h1 class="title">PEX Card</h1>
+        <div class="buttons">
+            <button class="button button-clear" ng-click="viewModel.cancel()"><i class="icon ion-ios-close-empty"></i></button>
+        </div>
+    </ion-header-bar>
+    <ion-content class="has-header" has-bouncing="true" >
+        <div class="padding text-center">
+            <p class="faded">
+                Fill in the info from the PEX Card you were sent below and save it.
+            </p>
+            <button ng-click="viewModel.showExampleCheck()" class="button button-clear button-positive">
+                <i class="icon ion-ios-help-outline"></i>  Where To Find Data
+            </button>
+        </div>
+        <div class="list">
+            <label class="item item-input  item-stacked-label">
+                <span class="input-label">PEX Card Name</span>
+                <input ng-model="viewModel.pexCard.name"
+                       type="text"
+                       placeholder="Grubroll - 00">
+            </label>
+            <label class="item item-input  item-stacked-label">
+                <span class="input-label">PEX Card Last 4 Digits</span>
+                <input ng-model="viewModel.pexCard.last_4_digits"
+                       type="text"
+                       placeholder="1234">
+            </label>
+        </div>
+        <div ng-if="viewModel.shopper.pex_info_present"
+             class="padding text-center">
+            <p class="text-positive">
+                You currently have a PEX Card saved on your grubrunner account.
+                Saving a new PEX Card will replace the current PEX Card.
+            </p>
+        </div>
+        <div class="padding text-center">
+            <button ng-click="viewModel.save()"
+                    class="button button-positive">
+                Save PEX Card
+            </button>
+        </div>
+    </ion-content>
+</div>
+
+<script id="image-modal.html" type="text/ng-template">
+    <div class="modal image-modal transparent"
+         ng-click="closeImageModal()">
+        <ion-slide-box on-slide-changed="viewModel.imageSlideChanged()"
+                       show-pager="false">
+            <ion-slide>
+                <img class="fullscreen-image" image-lazy-src="{{viewModel.imageModalImageUrl}}" image-lazy-loader="dots">
+            </ion-slide>
+        </ion-slide-box>
+    </div>
+</script>

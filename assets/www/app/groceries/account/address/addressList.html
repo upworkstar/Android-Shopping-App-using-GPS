@@ -1,0 +1,48 @@
+<ion-view view-title="Address">
+    <ion-nav-buttons side="right">
+
+    </ion-nav-buttons>
+    <ion-content class="has-header stable-content" has-bouncing="true" >
+        <br/>
+        <div class="large-padding small-only">
+            <h1 class="center">Addresses</h1>
+            <div class="text-center padding">
+                <button class="button button-full button-positive recent-pruchase" ng-click="addNewAddress()">
+                    Add New
+                </button>
+            </div>
+            <div ng-if="addresses.length > 0" class="list" show-delete="canDelete" can-swipe="canDelete">
+                <a ng-click="editAddress(address)" ng-repeat="address in addresses" class="item item-icon-right">
+                    {{address.street1}} {{address.street2}} {{address.city}}, {{address.state}} {{address.zip_code}}
+                    <i class="icon ion-ios-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="large-only">
+            <div class="text-center large-padding">
+                <button class="button button-full button-positive recent-pruchase" ng-click="addNewAddress()">
+                    Add New Address
+                </button>
+            </div>
+
+            <div class="list card">
+                <div class="item item-button-right cart-list-item item-icon-right"
+                     ng-repeat="address in addresses"
+                     ng-click="editAddress(address)">
+                    <span>
+                    {{address.street1}}
+                    <span ng-if="address.street2">
+                        <br/>
+                        {{address.street2}}
+                    </span>
+                    <br/>
+                    {{address.city}}, {{address.state}} {{address.zip_code}}
+                    </span>
+                    <i class="icon ion-ios-arrow-right"></i>
+                </div>
+            </div>
+
+        </div>
+    </ion-content>
+</ion-view>

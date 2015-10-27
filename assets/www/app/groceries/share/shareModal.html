@@ -1,0 +1,23 @@
+
+<div class="modal simple-modal share-modal" ng-controller="ShareModalController as viewModel">
+    <ion-header-bar class="bar-stable">
+        <h1 class="title"></h1>
+        <div class="buttons">
+            <button class="button button-clear" ng-click="viewModel.cancelShare()"><i class="icon ion-ios-close-outline"></i></button>
+        </div>
+    </ion-header-bar>
+    <ion-content class="has-header" has-bouncing="true" >
+        <div class="padding text-center" style="padding-top: 0;">
+            <h2 class="text-positive">
+                Invite Friends, Get $10!
+            </h2>
+            <h5>
+                Send friends $10 of free groceries and you'll get $10 when they join.
+                <br>
+            </h5>
+            <button ng-click="viewModel.shareOrder()" class="button share-button">
+                Share
+            </button>
+        </div>
+    </ion-content>
+</div>

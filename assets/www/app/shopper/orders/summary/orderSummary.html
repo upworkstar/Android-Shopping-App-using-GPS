@@ -1,0 +1,130 @@
+<ion-view view-title="Summary">
+    <ion-nav-buttons side="right">
+    </ion-nav-buttons>
+    <ion-content class="has-header" has-bouncing="true" >
+
+        <div class="padding">
+            <h1>Order #{{viewModel.order.id}}</h1>
+
+            <div ng-if="viewModel.allGood">
+                <ion-list>
+                    <div class="item item-divider">
+                        <span class="positive">
+                            You got everything! <i class="ion ion-happy-outline"></i>
+                        </span>
+                    </div>
+                </ion-list>
+            </div>
+            <div>
+                <div ng-if="!viewModel.allGood">
+                    <ion-list>
+                        <div class="item item-divider">
+                        <span class="text-assertive">
+                            Item(s) Not Fulfilled or Missing:
+                        </span>
+                        </div>
+                        <ion-item ng-repeat="order_line in viewModel.incompleteOrderLines">
+                            <span >
+                                {{order_line.requested_product.name}} {{order_line.requested_product.description}}
+                            </span>
+                            <p>
+                                Requested qty: {{order_line.requested_qty}}, Actual qty: {{order_line.actual_qty}}
+                            </p>
+                        </ion-item>
+                    </ion-list>
+                </div>
+            </div>
+            <br/>
+            <ion-list ng-if="viewModel.sholdShowPricePrompt()">
+                <dif class="item item-divider">
+                    <span class="text-assertive">
+                        Enter the price for these products:
+                    </span>
+                </dif>
+                <label class="item item-input item-stacked-label"
+                       ng-repeat="order_line in viewModel.order.order_lines"
+                       ng-if="viewModel.isCustomOrderLineNeedingPrice(order_line)">
+                    <span class="input-label">{{order_line.actual_product.name}} {{order_line.actual_product.description}}</span>
+                    <input ng-model="order_line.actual_product.price" type="tel" placeholder="ex. 7.99"
+                           ui-money-mask
+                           ng-model-options="{ updateOn: 'blur' }"
+                           ng-keyup="cancel($event)"
+                           ng-change="viewModel.somethingChanged()">
+                </label>
+            </ion-list>
+
+            <div class="text-center">
+                <div ng-if="viewModel.order.photo_id && !viewModel.uploadingImage">
+                    <p class="positive">
+                        <i class="icon ion-checkmark"></i> Receipt Picture Saved (photoid - {{viewModel.order.photo_id}})
+                    </p>
+                </div>
+                <div class="text-center" ng-if="viewModel.uploadingImage">
+                    <ion-spinner></ion-spinner>
+                    <p>Image is saving.</p>
+                </div>
+                <div  ng-if="!viewModel.uploadingImage">
+                    <button class="button-positive button-outline button" ng-disabled="viewModel.uploadingImage" ng-click="viewModel.getReceiptPicture()">
+                        <i class="icon ion-ios-camera-outline"></i> Take Receipt Picture
+                    </button>
+                </div>
+            </div>
+
+            <br/>
+            <ion-list ng-if="viewModel.shouldShowWeightPrompt()">
+                <div class="item item-divider">
+                    <span class="text-assertive">
+                        Enter the weight for these products:
+                    </span>
+                </div>
+                <label class="item item-input item-stacked-label"
+                       ng-repeat="order_line in viewModel.order.order_lines"
+                       ng-if="viewModel.isByWeightOrderLineNeedsWeight(order_line)">
+
+                    <span class="input-label">{{order_line.actual_product.name}} {{order_line.actual_product.description}}</span>
+                    <input ng-model="order_line.actual_qty" type="number"
+                           placeholder="ex. 1.25"
+                           ng-model-options="{ updateOn: 'blur' }"
+                           ng-keyup="cancel($event)"
+                           ng-change="viewModel.somethingChanged()">
+                </label>
+            </ion-list>
+
+
+            <ul class="list"  ng-if="viewModel.warnedForLargeAmount">
+                <p class="text-center">
+                    If the amount is correct please click on the checkbox below to acknowledge that it is correct then you can process the order.
+                </p>
+                <li class="item item-checkbox">
+                    <label class="checkbox">
+                        <input ng-model="viewModel.userAcknowledgeLargeChargeAmount" type="checkbox">
+                    </label>
+                    Amount is Correct. {{viewModel.actual_subtotal | currency}}
+                </li>
+            </ul>
+
+
+            <form class="login-form text-center" name="processOrderForm" >
+                <br/>
+                <p class="faded">Enter the total from the store receipt here:</p>
+                <div class="list list-inset">
+                    <label class="item item-input">
+                        <input type="tel" ng-model="processOrder.cost" placeholder="$ 0.00"  ui-money-mask required ng-required="true">
+                    </label>
+                </div>
+                <div class="list">
+                    <div class="text-center wrap">
+                        <button class="button button-positive button-large  button-outline" ng-click="viewModel.processOrder(processOrder)" ng-disabled="!processOrderForm.$valid" >
+                            Process Order
+                        </button>
+                        <p class="padding faded" ng-if="!processOrderForm.$valid">
+                            Enter in receipt total before processing the order.
+                        </p>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+
+    </ion-content>
+</ion-view>

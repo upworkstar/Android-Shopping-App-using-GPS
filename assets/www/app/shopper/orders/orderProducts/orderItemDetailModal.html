@@ -1,0 +1,301 @@
+
+<div class="modal order-line-detail"  on-swipe-left="viewModel.onDetailSwipeLeft()" on-swipe-right="viewModel.onDetailSwipeRight()" >
+    <ion-header-bar class="bar-stable">
+        <div class="buttons">
+
+        </div>
+        <h1 class="title">Item ({{detailItemIndex}})</h1>
+        <div class="buttons">
+            <button class="button button-clear" ng-click="viewModel.closeOrderItemDetail()"><i class="icon ion-ios-close-outline"></i></button>
+        </div>
+    </ion-header-bar>
+
+    <ion-content class="has-header" ng-class="viewModel.orderLineHasSub(viewModel.detailItem) ? 'has-footer':''" has-bouncing="true" >
+        <div class="detail-item-body" ng-class="swipeRight ? 'right' : 'left' " ng-hide="viewModel.changeItem">
+            <div ng-if="viewModel.detailItemOrderCustomerName">
+                <br/><br/>
+            </div>
+            <div ng-if="(viewModel.detailItem.inCart && viewModel.detailItem.requested_qty <= viewModel.detailItem.actual_qty)"
+                 class="check-in-cart animate-if text-center">
+                <i class="icon ion-ios-checkmark" ></i>
+            </div>
+            <div ng-if="viewModel.detailItem.notFound"
+                 class="check-in-cart animate-if text-center">
+                <i class="icon ion-ios-minus" ></i>
+            </div>
+            <div ng-if="viewModel.detailItemOrderId"
+                 class="text-center shopping-list-order-identifier"
+                 style="background-color:{{viewModel.detailItembackgroundColor}}">
+                Order #{{viewModel.detailItemOrderId}}<br/>{{viewModel.detailItemOrderCustomerName}}
+            </div>
+            <div class=" wrap ">
+                <div class="img-container"
+                     ng-click="viewModel.openImageModal(viewModel.detailItem.actual_product)"
+                     ng-class="(viewModel.detailItem.inCart && viewModel.detailItem.requested_qty <= viewModel.detailItem.actual_qty) ? 'in-cart':''"
+                     ng-if="viewModel.detailItem.actual_product">
+                    <img ng-src='{{viewModel.detailItem.actual_product.image_url}}'
+                        ng-if="viewModel.detailItem.actual_product.image_url"
+                        class="img-center detail-img"
+                        onerror="this.src='img/item404.gif'" />
+
+                    <img ng-src='img/itemNoImage.gif'
+                        class="img-center detail-img"
+                        ng-if="!viewModel.detailItem.actual_product.image_url" />
+                </div>
+                <div class="img-container"
+                     ng-click="viewModel.openImageModal(viewModel.detailItem.requested_product)"
+                     ng-class="(viewModel.detailItem.inCart && viewModel.detailItem.requested_qty <= viewModel.detailItem.actual_qty) ? 'in-cart':''"
+                     ng-if="!viewModel.detailItem.actual_product">
+                    <img ng-src='{{viewModel.detailItem.requested_product.image_url}}'
+                        ng-if="viewModel.detailItem.requested_product.image_url"
+                        class="img-center detail-img"
+                        onerror="this.src='img/item404.gif'" />
+
+                    <img ng-src='img/itemNoImage.gif'
+                        class="img-center detail-img"
+                        ng-if="!viewModel.detailItem.requested_product.image_url" />
+                </div>
+
+                <div ng-if="viewModel.detailItem.actual_product">
+                    <p ng-if="viewModel.orderLineHasSub(viewModel.detailItem)" class="text-assertive">
+                        Substituted Item for
+                        {{viewModel.detailItem.requested_product.brand_name}} {{viewModel.detailItem.requested_product.name}}
+                        <span ng-if="!viewModel.detailItem.requested_product.name">{{viewModel.detailItem.requested_product.description}}</span>
+                    </p>
+                    <ion-list>
+                        <ion-item class="text-center" ng-if="viewModel.detailItem.actual_product.name">
+                            <h1 class="wrap">
+                                {{viewModel.detailItem.actual_product.brand_name}} {{viewModel.detailItem.actual_product.name}}
+                                <div class="shopper-item-customer-notes" ng-if="viewModel.detailItem.notes">
+                                    <span class="label">Customer Note: </span> {{viewModel.detailItem.notes}}
+                                </div>
+                            </h1>
+                        </ion-item>
+                        <ion-item class="row" ng-if="viewModel.detailItem.actual_product.description">
+                            <div class="col text-right">
+                                <span class="dark">Desc: </span>
+                            </div>
+                            <div class="col">
+                                <b>{{viewModel.detailItem.actual_product.description}}</b>
+                            </div>
+                        </ion-item>
+                        <ion-item class="row">
+                            <div class="col text-right">
+                                <span class="dark">Brand: </span>
+                            </div>
+                            <div class="col">
+                                <b>{{viewModel.detailItem.actual_product.brand_name}}</b>
+                            </div>
+                        </ion-item>
+                        <ion-item class="row">
+                            <div class="col text-right">
+                                <span class="dark">Product Size: </span>
+                            </div>
+                            <div class="col">
+                                <b>{{viewModel.detailItem.actual_product.size}}</b>
+                            </div>
+                        </ion-item>
+                        <ion-item class="row">
+                            <div class="col text-right">
+                                <span class="dark">Requested Qty: </span>
+                            </div>
+                            <div class="col">
+                                <b>{{viewModel.detailItem.requested_qty}}</b>
+                                <span ng-if="viewModel.isByWeightOrderLine( viewModel.detailItem ) && viewModel.detailItem.requested_qty < 1">( <b>{{viewModel.getFraction(viewModel.detailItem.requested_qty)}}</b> )</span>
+                            </div>
+                        </ion-item>
+                        <ion-item class="row">
+                            <div class="col text-right">
+                                <span class="dark">Product UPC: </span>
+                            </div>
+                            <div class="col">
+                                <b>{{viewModel.detailItem.actual_product.upc}}</b>
+                            </div>
+                        </ion-item>
+                        <ion-item class="row">
+                            <div class="col text-right">
+                                <span class="dark">Category: </span>
+                            </div>
+                            <div class="col">
+                                <b>{{viewModel.detailItem.categoryName}}</b>
+                            </div>
+                        </ion-item>
+                    </ion-list>
+                </div>
+
+                <div ng-if="!viewModel.detailItem.actual_product">
+                    <ion-list>
+                        <ion-item class="text-center" ng-if="viewModel.detailItem.requested_product.name">
+                            <h1 class="wrap">
+                                {{viewModel.detailItem.requested_product.brand_name}} {{viewModel.detailItem.requested_product.name}}
+                                <div class="shopper-item-customer-notes" ng-if="viewModel.detailItem.notes">
+                                    <span class="label">Customer Note: </span> {{viewModel.detailItem.notes}}
+                                </div>
+                            </h1>
+                        </ion-item>
+                        <ion-item class="row" ng-if="viewModel.detailItem.requested_product.description">
+                            <div class="col text-right">
+                                <span class="dark">Desc: </span>
+                            </div>
+                            <div class="col">
+                                <b>{{viewModel.detailItem.requested_product.description}}</b>
+                            </div>
+                        </ion-item>
+                        <!--<ion-item class="row" ng-if="viewModel.detailItem.notes">-->
+                            <!--<div class="col text-right">-->
+                                <!--<span class="dark">Customer Notes: </span>-->
+                            <!--</div>-->
+                            <!--<div class="col">-->
+                                <!--<b>{{viewModel.detailItem.notes}}</b>-->
+                            <!--</div>-->
+                        <!--</ion-item>-->
+                        <ion-item class="row">
+                            <div class="col text-right">
+                                <span class="dark">Brand: </span>
+                            </div>
+                            <div class="col">
+                                <b>{{viewModel.detailItem.requested_product.brand_name}}</b>
+                            </div>
+                        </ion-item>
+                        <ion-item class="row">
+                            <div class="col text-right">
+                                <span class="dark">Product Size: </span>
+                            </div>
+                            <div class="col">
+                                <b>{{viewModel.detailItem.requested_product.size}}</b>
+                            </div>
+                        </ion-item>
+                        <ion-item class="row">
+                            <div class="col text-right">
+                                <span class="dark">Requested Qty: </span>
+                            </div>
+                            <div class="col">
+                                <b>{{viewModel.detailItem.requested_qty}}</b>
+                                <span ng-if="viewModel.isByWeightOrderLine( viewModel.detailItem ) && viewModel.detailItem.requested_qty < 1">( <b>{{viewModel.getFraction(viewModel.detailItem.requested_qty)}}</b> )</span>
+                            </div>
+                        </ion-item>
+                        <ion-item class="row">
+                            <div class="col text-right">
+                                <span class="dark">Product UPC: </span>
+                            </div>
+                            <div class="col">
+                                <b>{{viewModel.detailItem.requested_product.upc}}</b>
+                            </div>
+                        </ion-item>
+                        <ion-item class="row">
+                            <div class="col text-right">
+                                <span class="dark">Category: </span>
+                            </div>
+                            <div class="col">
+                               <b>{{viewModel.detailItem.categoryName}}</b>
+                            </div>
+                        </ion-item>
+                    </ion-list>
+                </div>
+                <ion-list>
+                    <ion-item class="text-center" ng-if="viewModel.detailItem.inCart && viewModel.detailItem.requested_qty > 1 && !viewModel.isByWeightOrderLine( viewModel.detailItem )">
+                        <p class="dark">How many did you buy?</p>
+                        <button class="button button-small button-outline button-assertive"
+                                ng-class="viewModel.detailItem.actual_qty == 0 ? 'disabled' : ''"
+                                ng-click="viewModel.subtractActualQuantity(viewModel.detailItem, viewModel.detailItemOrderId)">
+                            <i class="icon ion-ios-minus-outline" > </i>
+                        </button>
+                        <button class="button button-small button-outline button-dark disabled ">
+                            {{viewModel.detailItem.actual_qty}}
+                        </button>
+                        <button class="button button-small button-outline button-positive" ng-class="viewModel.detailItem.requested_qty <= viewModel.detailItem.actual_qty ? 'disabled' : ''"  ng-click="viewModel.addActualQuantity(viewModel.detailItem, viewModel.detailItemOrderId)">
+                            <i class="icon ion-ios-plus-outline" > </i>
+                        </button>
+                    </ion-item>
+                    <label class="text-center item item-input" ng-if="viewModel.detailItem.inCart && viewModel.isByWeightOrderLine( viewModel.detailItem )">
+                        <span class="input-label">Actual Product Weight:</span>
+                        <input type="{{viewModel.numberInputType}}" placeholder="0.00" ng-model="viewModel.detailItem.actual_qty">
+                    </label>
+
+                    <label class="text-center item item-input" ng-if="viewModel.detailItem.inCart && viewModel.detailItem.actual_product_type == 'CustomProduct'">
+                        <span class="input-label">Special Request Cost:</span>
+                        <input type="tel" ui-money-mask placeholder="0.00" ng-model="viewModel.detailItem.actual_product.price">
+                    </label>
+                    <ion-item class="row item-positive" ng-if="!viewModel.detailItem.inCart">
+                        <div class="col">
+                            <button ng-click="viewModel.addToCart(viewModel.detailItem, viewModel.detailItemOrderId); $event.stopPropagation();"
+                                    class="button button-small button-full button-positive">
+                                Add To Cart
+                            </button>
+                        </div>
+                    </ion-item>
+                    <ion-item class="row item-assertive" ng-if="viewModel.detailItem.inCart">
+                        <div class="col">
+                            <button ng-click="viewModel.removeFromCart(viewModel.detailItem, viewModel.detailItemOrderId); $event.stopPropagation();"
+                                    class="button button-small button-full button-assertive">
+                                Remove from Cart
+                            </button>
+                        </div>
+                    </ion-item>
+                </ion-list>
+            </div>
+            <br/>
+            <div class="product-options-area padding text-center" style="">
+                <div>
+                    <button class="button product-option button-positive button-full " ng-click="viewModel.subClick(viewModel.detailItem)">
+                        <i class="ion ion-arrow-swap"></i> <span>Substitute Item</span>
+                    </button>
+                </div>
+                <div>
+                    <div ng-if="viewModel.detailItem.requested_product">
+                        <button ng-click="viewModel.markProductAsNotFound(viewModel.detailItem, viewModel.detailItemOrderId)"
+                                class="button product-option button-full button-assertive ">
+                        <span ng-if="viewModel.detailItem.notFound">
+                            <i class="icon ion-checkmark-circled" ></i> Not Found
+                        </span>
+                        <span ng-if="!viewModel.detailItem.notFound">
+                            <i class="icon ion-ios-minus-outline "></i> Mark as Not Found
+                        </span>
+                        </button>
+                    </div>
+                </div>
+                <div>
+                    <div ng-if="viewModel.detailItem.requested_product">
+                        <button ng-click="viewModel.productNotAvailableClick(viewModel.detailItem.requested_product, viewModel.detailItemOrderId)"
+                                class="button product-option button-stable button-full  ">
+                            <i class="icon ion-android-chat"></i>  Text Customer About Product
+                        </button>
+                    </div>
+                </div>
+                <div ng-if="!viewModel.detailItem.actual_product">
+                    <button ng-click="viewModel.productDataWrongClick(viewModel.detailItem.requested_product, viewModel.detailItemOrderId)"
+                            class="button product-option  button-stable button-full">
+                        Product Data Wrong? Let Us Know :)
+                    </button>
+                </div>
+                <div ng-if="viewModel.detailItem.actual_product">
+                    <button ng-click="viewModel.productDataWrongClick(viewModel.detailItem.actual_product, viewModel.detailItemOrderId)"
+                            class="button product-option  button-stable button-full">
+                        Product Data Wrong? Let Us Know :)
+                    </button>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+    <ion-footer-bar class="bar-assertive wrap"
+                    ng-if="viewModel.orderLineHasSub(viewModel.detailItem)"
+                    ng-click="viewModel.removeSubstituteProductClick(viewModel.detailItem)">
+        <h1 class="title"><i class="ion ion-close-round"></i> Remove Substituted Item</h1>
+    </ion-footer-bar>
+    <script id="image-modal.html" type="text/ng-template">
+        <div class="modal image-modal transparent"
+             on-swipe-up="viewModel.closeImageModal()"
+             on-swipe-down="viewModel.closeImageModal()"
+             on-swipe-left="viewModel.closeImageModal()"
+             on-swipe-right="viewModel.closeImageModal()"
+             ng-click="viewModel.closeImageModal()">
+            <ion-slide-box on-slide-changed="viewModel.imageSlideChanged()"
+                           show-pager="false">
+                <ion-slide>
+                    <img class="fullscreen-image" image-lazy-src="{{viewModel.imageModalImageUrl}}" image-lazy-loader="dots">
+                </ion-slide>
+            </ion-slide-box>
+        </div>
+    </script>
+
+</div>

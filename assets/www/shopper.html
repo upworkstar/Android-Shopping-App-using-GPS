@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>Grubroll Grubrunner</title>
+
+    <script>
+        var _rollbarConfig = {
+            accessToken: "653e08c7196f46b4a78ab6a8ca51f75d",
+            captureUncaught: true,
+            verbose: true,
+            payload: {
+                environment: "production"
+            }
+        };
+        !function(a,b){function c(b){this.shimId=++h,this.notifier=null,this.parentShim=b,this.logger=function(){},a.console&&void 0===a.console.shimId&&(this.logger=a.console.log)}function d(b,c,d){a._rollbarWrappedError&&(d[4]||(d[4]=a._rollbarWrappedError),d[5]||(d[5]=a._rollbarWrappedError._rollbarContext),a._rollbarWrappedError=null),b.uncaughtError.apply(b,d),c&&c.apply(a,d)}function e(b){var d=c;return g(function(){if(this.notifier)return this.notifier[b].apply(this.notifier,arguments);var c=this,e="scope"===b;e&&(c=new d(this));var f=Array.prototype.slice.call(arguments,0),g={shim:c,method:b,args:f,ts:new Date};return a._rollbarShimQueue.push(g),e?c:void 0})}function f(a,b){if(b.hasOwnProperty&&b.hasOwnProperty("addEventListener")){var c=b.addEventListener;b.addEventListener=function(b,d,e){c.call(this,b,a.wrap(d),e)};var d=b.removeEventListener;b.removeEventListener=function(a,b,c){d.call(this,a,b&&b._wrapped?b._wrapped:b,c)}}}function g(a,b){return b=b||this.logger,function(){try{return a.apply(this,arguments)}catch(c){b("Rollbar internal error:",c)}}}var h=0;c.init=function(a,b){var e=b.globalAlias||"Rollbar";if("object"==typeof a[e])return a[e];a._rollbarShimQueue=[],a._rollbarWrappedError=null,b=b||{};var h=new c;return g(function(){if(h.configure(b),b.captureUncaught){var c=a.onerror;a.onerror=function(){var a=Array.prototype.slice.call(arguments,0);d(h,c,a)};var g,i,j="EventTarget,Window,Node,ApplicationCache,AudioTrackList,ChannelMergerNode,CryptoOperation,EventSource,FileReader,HTMLUnknownElement,IDBDatabase,IDBRequest,IDBTransaction,KeyOperation,MediaController,MessagePort,ModalWindow,Notification,SVGElementInstance,Screen,TextTrack,TextTrackCue,TextTrackList,WebSocket,WebSocketWorker,Worker,XMLHttpRequest,XMLHttpRequestEventTarget,XMLHttpRequestUpload".split(",");for(g=0;g<j.length;++g)i=j[g],a[i]&&a[i].prototype&&f(h,a[i].prototype)}return a[e]=h,h},h.logger)()},c.prototype.loadFull=function(a,b,c,d,e){var f=g(function(){var a=b.createElement("script"),e=b.getElementsByTagName("script")[0];a.src=d.rollbarJsUrl,a.async=!c,a.onload=h,e.parentNode.insertBefore(a,e)},this.logger),h=g(function(){var b;if(void 0===a._rollbarPayloadQueue){var c,d,f,g;for(b=new Error("rollbar.js did not load");c=a._rollbarShimQueue.shift();)for(f=c.args,g=0;g<f.length;++g)if(d=f[g],"function"==typeof d){d(b);break}}"function"==typeof e&&e(b)},this.logger);g(function(){c?f():a.addEventListener?a.addEventListener("load",f,!1):a.attachEvent("onload",f)},this.logger)()},c.prototype.wrap=function(b,c){try{var d;if(d="function"==typeof c?c:function(){return c||{}},"function"!=typeof b)return b;if(b._isWrap)return b;if(!b._wrapped){b._wrapped=function(){try{return b.apply(this,arguments)}catch(c){throw c._rollbarContext=d()||{},c._rollbarContext._wrappedSource=b.toString(),a._rollbarWrappedError=c,c}},b._wrapped._isWrap=!0;for(var e in b)b.hasOwnProperty(e)&&(b._wrapped[e]=b[e])}return b._wrapped}catch(f){return b}};for(var i="log,debug,info,warn,warning,error,critical,global,configure,scope,uncaughtError".split(","),j=0;j<i.length;++j)c.prototype[i[j]]=e(i[j]);var k="http://d37gvrvc0wt4s1.cloudfront.net/js/v1.2/rollbar.min.js";_rollbarConfig.rollbarJsUrl=_rollbarConfig.rollbarJsUrl||k;var l=c.init(a,_rollbarConfig);l.loadFull(a,b,!1,_rollbarConfig)}(window,document);
+    </script>
+
+    <script>
+        appName = 'shopper';
+        webVersion = false;
+    </script>
+    <!-- compiled css output -->
+    <link href="css/ionic.app.css" rel="stylesheet">
+
+    <script src="lib/jquery/dist/jquery.min.js"></script>
+    <script src="lib/moment/min/moment.min.js"></script>
+    <script src="lib/moment-timezone/builds/moment-timezone-with-data.js"></script>
+
+    <link rel="stylesheet" href="lib/animate.css/animate.min.css"/>
+
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+    <script src="lib/ionic-service-core/ionic-core.js"></script>
+    <script src="lib/ionic-service-analytics/ionic-analytics.js"></script>
+    <script src="lib/ionic-service-deploy/ionic-deploy.js"></script>
+
+    <script src="lib/underscore/underscore-min.js"></script>
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="lib/ngCordova/dist/ng-cordova.js"></script>
+    <script src="cordova.js"></script>
+
+    <script src="lib/ion-image-lazy-load/ionic-image-lazy-load.js"></script>
+    <script src="lib/angular-input-masks/angular-input-masks.min.js"></script>
+    <script src="lib/angular-input-masks/angular-input-masks.us.min.js"></script>
+
+    <script src="lib/angular-busy/dist/angular-busy.min.js"></script>
+    <link href="lib/angular-busy/dist/angular-busy.min.css" rel="stylesheet">
+
+    <script src="lib/angular-animate/angular-animate.min.js"></script>
+
+    <!-- your app's js -->
+    <script src="app/shopper/app.js"></script>
+    <script src="app/common/common.js"></script>
+    <script src="app/common/apiEndpoint.js"></script>
+    <script src="app/common/ionicConfig.js"></script>
+
+    <script src="app/common/services/AuthService.js"></script>
+    <script src="app/common/services/LogService.js"></script>
+    <script src="app/common/login/LoginController.js"></script>
+    <script src="app/common/model/Order.js"></script>
+    <script src="app/common/model/OrderLine.js"></script>
+    <script src="app/common/model/GroceryCartItem.js"></script>
+    <script src="app/common/model/CustomOrderLine.js"></script>
+
+    <script src="app/shopper/AppController.js"></script>
+    <script src="app/shopper/account/AccountController.js"></script>
+    <script src="app/shopper/orders/orderDetail/OrderDetailController.js"></script>
+    <script src="app/shopper/orders/orderProducts/ProductListController.js"></script>
+    <script src="app/shopper/services/OrderService.js"></script>
+    <script src="app/shopper/services/MyOrdersService.js"></script>
+    <script src="app/shopper/orders/summary/OrderSummaryController.js"></script>
+
+    <script src="app/common/services/ProductService.js"></script>
+    <script src="app/common/services/UIUtil.js"></script>
+
+    <script src="app/common/directives/onValidSubmit.js"></script>
+    <script src="app/common/directives/validated.js"></script>
+    <script src="app/common/directives/stopEvent.js"></script>
+    <script src="app/common/filters/tel.js"></script>
+
+    <script src="app/shopper/schedule/ScheduleController.js"></script>
+    <script src="app/shopper/services/ScheduleService.js"></script>
+    <script src="app/shopper/services/ShoppingListService.js"></script>
+    <script src="app/shopper/models/GrubrollOrder.js"></script>
+    <script src="app/shopper/orders/shoppingList/ShoppingListcontroller.js"></script>
+    <script src="app/shopper/about/AboutController.js"></script>
+    <script src="app/common/filters/capitalize.js"></script>
+
+    <script src="app/shopper/deliveryHistory/DeliveryHistoryController.js"></script>
+    <script src="app/common/services/PhotoService.js"></script>
+    <script src="app/shopper/services/ShopperService.js"></script>
+    <script src="app/shopper/orders/MyOrdersController.js"></script>
+    <script src="app/shopper/orders/AvailableOrdersController.js"></script>
+    <script src="app/common/services/SharingService.js"></script>
+    <script src="app/common/services/FriendBuyService.js"></script>
+    <script src="app/common/services/AppSettingsService.js"></script>
+
+    <script src="app/shopper/services/FeatureService.js"></script>
+    <script src="app/common/services/VersionProvider.js"></script>
+    <script src="app/shopper/services/ProductListService.js"></script>
+    <script src="app/shopper/schedule/slotZones/SlotZonesController.js"></script>
+    <script src="app/shopper/schedule/slotZones/SlotZonesModalProvider.js"></script>
+    <script src="app/shopper/shopperAccount/ShopperAccountController.js"></script>
+    <script src="app/shopper/shopperAccount/bankAccountInfo/BankAccountInfoController.js"></script>
+    <script src="app/shopper/shopperAccount/bankAccountInfo/BankAccountInfoProvider.js"></script>
+    <script src="app/shopper/shopperAccount/pexCard/PexCardModalController.js"></script>
+    <script src="app/shopper/shopperAccount/pexCard/PexCardModalProvider.js"></script>
+    <script src="app/shopper/shopperAccount/accountSetup/AccountSetupController.js"></script>
+    <script src="app/shopper/shopperAccount/accountSetup/AccountSetupProvider.js"></script>
+    <script src="app/common/services/NetworkConnectionService.js"></script>
+
+    <script src="js/phonegap.js"></script>
+    <script src="lib/angular-ios9-uiwebview.patch.js"></script>
+
+</head>
+
+<body ng-app="GrubrollShopperApp">
+<ion-nav-view></ion-nav-view>
+</body>
+</html>

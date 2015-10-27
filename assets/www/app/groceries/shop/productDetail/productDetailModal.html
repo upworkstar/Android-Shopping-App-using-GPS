@@ -1,0 +1,107 @@
+<div class="buttons" id="">
+    <div class="modal simple-modal product-detail-modal">
+        <div class="product-detail-on-sale-banner corner-ribbon sale top-left" ng-if="productDetailProduct.on_sale && !productDetailProduct.bogo">On Sale</div>
+        <div class="product-detail-on-sale-banner corner-ribbon bogo top-left" ng-if="productDetailProduct.bogo">BOGO</div>
+        <ion-header-bar class="bar-stable">
+            <h1 class="title"></h1>
+            <div class="buttons">
+                <button class="button button-clear" ng-click="closeProductDetail()"><i class="icon ion-ios-close-outline"></i></button>
+            </div>
+        </ion-header-bar>
+        <ion-content class="has-header" has-bouncing="true" >
+            <div class="text-center">
+                <h2 class="calm"  ng-if="productDetailProduct.product_type == 'custom'">
+                    Special Request
+                </h2>
+            </div>
+            <img ng-src='{{productDetailProduct.images[0].url}}'
+                 ng-if="productDetailProduct.images.length > 0"
+                 ng-click="openImageModal(productDetailProduct)"
+                 class="img-center detail-img"
+                 onerror="this.src='img/item404.gif'" />
+
+            <img ng-src='img/itemNoImage.gif'
+                 class="img-center detail-img"
+                 ng-if="productDetailProduct.images.length < 1" />
+
+            <div class="text-center wrap padding">
+                <h2>{{productDetailProduct.brand_name}} {{productDetailProduct.name}} <br/></h2>
+
+                <h4 ng-if="productDetailProduct.product_type != 'custom'">{{productDetailProduct.description}}</h4>
+
+                <div ng-if="productDetailProduct.product_type != 'by weight'">
+                    <h4 class="product-name">
+                        <small>{{productDetailProduct.size}}</small>
+                        <span ng-class="productDetailProduct.on_sale ? 'strike-through':''">{{productDetailProduct.price | currency}} </span>
+                        <span class="positive" ng-if="productDetailProduct.on_sale">{{productDetailProduct.sale_price | currency}} </span>
+                    </h4>
+                </div>
+                <div ng-if="productDetailProduct.product_type == 'by weight'">
+                    <h4 class="product-name">
+                        {{productDetailProduct.price | currency}}
+                        <small>{{productDetailProduct.size}}</small>
+                    </h4>
+                </div>
+
+                <div class="padding">
+                    <button class="button  button-outline button-assertive"
+                            ng-class="(cartItemCountForProduct(productDetailProduct, true) == 0) ? 'disabled':'' "
+                            ng-click="removeItemFromCart(productDetailProduct)">
+                        <i class="icon ion-ios-minus-outline" > </i>
+                    </button>
+                    <button class="button  button-outline button-dark disabled">
+                        <span ng-if="productInCart(productDetailProduct)">
+                            {{cartItemCountForProduct(productDetailProduct)}} in cart
+                        </span>
+                        <span ng-if="!productInCart(productDetailProduct)">
+                            not in cart
+                        </span>
+                    </button>
+                    <button class="button button-positive button-outline"
+                            ng-click="addItem(productDetailProduct)">
+                        <i class="icon ion-ios-plus-outline" > </i>
+                    </button>
+                    <p></p>
+                    <button ng-if="(cartItemCountForProduct(productDetailProduct) == 0)" class="button button-small  button-assertive"  ng-click="removeCartItemForProductFromCartCompletely(productDetailProduct)">
+                        <i class="icon ion-ios-close-outline"> Remove From Cart </i>
+                    </button>
+
+
+                    <div ng-if="productInCart(productDetailProduct)" class="if-fade">
+                        <button class="button button-clear" ng-click="addNoteForProduct(productDetailProduct)">
+                            <span class="icon ion-ios-paper-outline"></span>
+                            Add Note
+                        </button>
+                    </div>
+                </div>
+
+                <div class="padding wrap"  ng-if="productDetailProduct.product_type != 'custom' && productDetailProduct.categories.length > 0">
+                    <h4>Categories:</h4>
+                    <span ng-repeat="category in productDetailProduct.categories">
+                        <span class="badge category-badge badge-positive">
+                            {{category.name}}
+                        </span>
+                    </span>
+                </div>
+            </div>
+            <br/>
+        </ion-content>
+    </div>
+
+    <script id="image-modal.html" type="text/ng-template">
+        <div class="modal image-modal transparent"
+             on-swipe-up="closeImageModal()"
+             on-swipe-down="closeImageModal()"
+             on-swipe-left="closeImageModal()"
+             on-swipe-right="closeImageModal()"
+             ng-click="closeImageModal()">
+            <ion-slide-box on-slide-changed="imageSlideChanged()"
+                           show-pager="false">
+                <ion-slide>
+                    <img class="fullscreen-image" image-lazy-src="{{imageModalImageUrl}}" image-lazy-loader="dots">
+                </ion-slide>
+            </ion-slide-box>
+        </div>
+    </script>
+</div>
+

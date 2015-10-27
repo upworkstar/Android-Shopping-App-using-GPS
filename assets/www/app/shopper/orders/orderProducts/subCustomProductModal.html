@@ -1,0 +1,58 @@
+<div class="modal"  >
+    <ion-header-bar class="bar-light">
+        <h1 class="title">
+            Custom Sub
+        </h1>
+        <div class="buttons">
+            <button class="button button-clear" ng-click="viewModel.cancelSubCustomProd()"><i class="icon ion-ios-close-outline"></i></button>
+        </div>
+    </ion-header-bar>
+    <ion-content class="has-header" has-bouncing="true" >
+        <form name="subCustomProdForm">
+
+            <div class="list">
+                <label class="item item-input item-stacked-label">
+                    <div class="input-label">
+                        Description:
+                    </div>
+                    <textarea id="txtnotes" ng-model="subCustomProdForm.name" rows="5" placeholder="Custom Product Description"></textarea>
+                </label>
+                <label class="item item-input">
+                    <div class="input-label">
+                        Cost:
+                    </div>
+                    <input  ui-money-mask type="tel" ng-model="subCustomProdForm.cost" placeholder="0.00"/>
+                </label>
+                <div class="item  item-input" ng-init="subCustomProdForm.count = 1">
+                    <div class="input-label">
+                        Quantity:
+                    </div>
+                    <div class="text-center">
+                        <button class="button  button-outline button-assertive" stop-event="click" ng-click="viewModel.subtractFromCustomItemCount(subCustomProdForm)">
+                            <i class="icon ion-ios-minus-outline" > </i>
+                        </button>
+                        <button class="button  button-outline button-dark disabled">
+                            {{subCustomProdForm.count}}
+                        </button>
+                        <button class="button  button-outline button-positive" stop-event="click" ng-click="viewModel.addToCustomItemCount(subCustomProdForm)">
+                            <i class="icon ion-ios-plus-outline" > </i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <div class="padding">
+                    <p>
+                        Cost is per unit that you are buying. So if you are buying 3 of something that costs $1.00 then enter $1.00 as the cost and the quantity as 3 and it will charge the customer $3.00.
+                    </p>
+                </div>
+                <button class="button button-positive button-outline" ng-click="viewModel.saveSubCustomProd(subCustomProdForm)">
+                    Sub Custom Product
+                </button>
+            </div>
+            <div class="padding text-center" ng-if="subCustomProdForm.cost">
+                Total Cost Charging for item: {{subCustomProdForm.cost * subCustomProdForm.count}}
+            </div>
+        </form>
+    </ion-content>
+</div>

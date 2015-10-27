@@ -1,0 +1,42 @@
+<ion-view view-title="Payment">
+    <ion-nav-buttons side="right">
+
+    </ion-nav-buttons>
+    <ion-content class="has-header stable-content" has-bouncing="true" >
+        <br/>
+        <div class="small-only">
+
+            <h1 class="center">{{title}}</h1>
+
+            <div class="text-center padding">
+                <button class="button button-full button-positive recent-pruchase" ng-click="addNewCard()">
+                    Add New
+                </button>
+            </div>
+            <div ng-if="cards.length > 0" class="list">
+                <a ng-repeat="card in cards" ng-click="editCard(card)" class="item item-icon-right">
+                    **** **** **** {{card.last_4_digits}}
+                    <i class="icon ion-ios-arrow-right"></i>
+                </a>
+            </div>
+
+        </div>
+
+        <div class="large-only">
+            <div class="text-center large-padding">
+                <button class="button button-full button-positive recent-pruchase" ng-click="addNewCard()">
+                    Add New
+                </button>
+            </div>
+            <div ng-if="cards.length > 0" class="list card">
+                <div ng-repeat="card in cards" ng-click="editCard(card)"  class="item item-button-right cart-list-item item-icon-right">
+                    **** **** **** {{card.last_4_digits}}
+                    <p>Exp: {{card.exp_date}}</p>
+                    <i class="icon ion-ios-arrow-right"></i>
+                </div>
+            </div>
+
+        </div>
+
+    </ion-content>
+</ion-view>

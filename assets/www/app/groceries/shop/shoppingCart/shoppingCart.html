@@ -1,0 +1,159 @@
+<ion-view view-title="{{title}}">
+    <ion-content class="has-header "  has-bouncing="true" >
+
+        <ion-refresher
+                pulling-text="Pull to refresh..."
+                on-refresh="refreshCartData(true)"
+                pulling-icon="ion-ios-arrow-down">
+        </ion-refresher>
+        <guest-account-callout ng-if="guest_account()"> </guest-account-callout>
+        <offline-message></offline-message>
+        <div class="small-only list list-inset card wrap">
+            <div class="item text-center item-wrap">
+                <p ng-if="cartItems.length < 1" class="text-assertive">
+                    There are no items in your cart.
+                </p>
+                <h1 class="wrap">
+                    <small class="dark">Subtotal:</small> {{total | currency}}
+                </h1>
+                <p>Ready to place your order?</p>
+                <button class="button button-block button-positive recent-pruchase" ng-disabled="cartItems.length < 1" ng-click="completeOrder()">
+                    Checkout
+                </button>
+                <button class="button button-full button-stable recent-pruchase" ng-click="addCustomProduct()">
+                    customize your order
+                </button>
+            </div>
+        </div>
+
+        <div class="large-only large-padding">
+            <div class="padding text-center item-wrap">
+                <p ng-if="cartItems.length < 1" class="text-assertive">
+                    There are no items in your cart.
+                </p>
+
+                <h1 class="wrap">
+                    <small class="dark">Your Subtotal:</small> {{total | currency}}
+                </h1>
+                <p>Ready to place your order?</p>
+                <button class="button button-block button-positive recent-pruchase" ng-disabled="cartItems.length < 1" ng-click="completeOrder()">
+                    Checkout
+                </button>
+                <button class="button button-full button-stable recent-pruchase" ng-click="addCustomProduct()">
+                    customize your order
+                </button>
+            </div>
+        </div>
+
+        <div class="padding large-only">
+            <div class=" list">
+                <div class="item item-divider">
+                    {{cartItems.length}} Items in your Cart
+                </div>
+                <div class="item item-thumbnail-left item-button-right cart-list-item"
+                     ng-click="clickCartItem(cartItem)"
+                     ng-repeat="cartItem in cartItems | orderBy:'product.name':false">
+                    <img class="img-products-list" ng-src="{{cartItem.product.images[0].url}}" />
+                    <a style="top: 3% !important;" class="button button-clear button-large button-positive center center-content top" ng-click="addProduct(cartItem.product)">
+                        <i class="icon ion-ios-plus-empty"></i>
+                    </a>
+                    <p  class="button button-clear button-dark disabled center center-content" >
+                        <span class="black">{{cartItem.qty}}</span>
+                    </p>
+                    <a style="top: 63% !important;" class="button button-clear button-large button-assertive center center-content bottom"
+                       ng-if="cartItem.qty > 0"
+                       stop-event="click"
+                       ng-click="removeProduct(cartItem.product)">
+                        <i class="icon ion-ios-minus-empty"></i>
+                    </a>
+                    <a style="top: 63% !important;" stop-event="click" class="button button-clear button-large button-assertive center center-content bottom" ng-if="cartItem.qty == 0" ng-click="removeCartItemForProductFromCartCompletely(cartItem)">
+                        <span>Remove <i class="icon ion-ios-close-outline"></i></span>
+                    </a>
+                    <div class="row">
+                        <p class="col col-50 cart-item-name">
+                            {{cartItem.product.brand_name}} {{cartItem.product.name}}
+                        </p>
+                        <p class="col col-10">
+                            <span ng-class="cartItem.product.on_sale ? 'strike-through':''">{{cartItem.product.price | currency}} </span>
+                            <span class="positive" ng-if="cartItem.product.on_sale"><br/>{{cartItem.product.sale_price | currency}} </span>
+                            <small class="" ng-if="cartItem.product.isCustom">(Special Request)</small>
+                        </p>
+                        <div class="col">
+                            <p>
+                                <button stop-event="click" ng-click="addNote(cartItem)"  class="button button-small button-clear button-positive">
+                                    <span class="icon ion-ios-paper-outline"></span>
+                                <span ng-if="!cartItem.note">
+                                    Add Note
+                                </span>
+                                <span ng-if="cartItem.note">
+                                    Edit Note
+                                </span>
+                                </button>
+                            </p>
+                            <p>
+                                <span>{{cartItem.note}}</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="small-only">
+            <ion-list>
+                <div class="item item-divider">
+                    Items in your Cart: {{cartItems.length}}
+                </div>
+                <div class="item item-button-right cart-list-item"
+                     ng-click="clickCartItem(cartItem)"
+                     ng-class="cartItem.product.isCustom ? '':'item-thumbnail-left'"
+                     ng-repeat="cartItem in cartItems | orderBy:'product.name':false">
+                    <img class="img-products-list" ng-src="{{cartItem.product.images[0].url}}" />
+                    <a style="top: 3% !important;"
+                       class="button button-clear button-large button-positive center center-content top"
+                       ng-click="addProduct(cartItem.product)">
+                        <i class="icon ion-ios-plus-empty"></i>
+                    </a>
+                    <p  class="button button-clear button-dark disabled center center-content" >
+                        <span class="black">{{cartItem.qty}}</span>
+                    </p>
+                    <a style="top: 63% !important;"
+                       class="button button-clear button-large button-assertive center center-content bottom"
+                       ng-if="cartItem.qty > 0"
+                       ng-click="removeProduct(cartItem.product)">
+                        <i class="icon ion-ios-minus-empty"></i>
+                    </a>
+                    <a style="top: 63% !important;"
+                       class="button button-clear button-large button-assertive center center-content bottom"
+                       ng-if="cartItem.qty == 0"
+                       ng-click="removeCartItemForProductFromCartCompletely(cartItem)">
+                        <span>Remove <i class="icon ion-ios-close-outline"></i></span>
+                    </a>
+                    <span>
+                        {{cartItem.product.brand_name}} {{cartItem.product.name}}
+                    </span>
+                    <p>
+                        <span ng-class="cartItem.product.on_sale ? 'strike-through':''">{{cartItem.product.price | currency}} </span>
+                        <span class="positive" ng-if="cartItem.product.on_sale">{{cartItem.product.sale_price | currency}} </span>
+                        <small class="" ng-if="cartItem.product.isCustom">(Special Request)</small>
+                    </p>
+                    <p>
+                        <button ng-click="addNote(cartItem)" stop-event="click" class="button button-small button-clear button-positive">
+                            <span class="icon ion-ios-paper-outline"></span>
+                            <span ng-if="!cartItem.note">
+                                Add Note
+                            </span>
+                            <span ng-if="cartItem.note">
+                                Edit Note
+                            </span>
+                        </button>
+                    </p>
+                    <p>
+                        <span>{{cartItem.note}}</span>
+                    </p>
+                </div>
+            </ion-list>
+        </div>
+
+    </ion-content>
+</ion-view>

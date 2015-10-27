@@ -1,0 +1,87 @@
+<ion-view view-title="My Orders">
+    <ion-nav-buttons side="right">
+        <button  class="button button-icon icon ion-ios-refresh-empty" ng-click="refreshButtonClick()"></button>
+    </ion-nav-buttons>
+    <ion-content class="has-header darker-content" has-bouncing="true" >
+        <ion-refresher
+                pulling-text="Pull to refresh..."
+                on-refresh="doRefresh()">
+        </ion-refresher>
+        <offline-message></offline-message>
+        <div class="icon-refreshing text-center center" style="margin-top:10px;">
+            <ion-spinner ng-show="loadingSpinner" ></ion-spinner>
+        </div>
+        <ion-list>
+            <br/>
+            <ion-item class="item item-icon-right shopping-list-nav-item" ng-click="shoppingListClick()">
+                <span class="text-positive">
+                    Shopping List
+                </span>
+                <p>
+                    {{shoppingListCount()}} orders
+                </p>
+                <i class="icon ion-ios-arrow-right text-positive"></i>
+            </ion-item>
+            <div class="history-list-separator">
+                <span class="faded padding">
+                    Your Orders
+                </span>
+            </div>
+            <ion-item ng-repeat="order in currentOrders  | orderBy:'time_slot.starts_at'" class="item item-icon-right item-button-right my-orders-item" ng-click="showOrderDetail(order)" >
+                <div ng-if="order.inShoppingList" class="shopping-list-icon positive">
+                    <i class="icon ion-ios-checkmark">Shopping List</i>
+                </div>
+                <div class="status-badge">
+                    <span class="badge status-badge-badge"
+                          ng-class="getOrderStatusBadgeClass(order)">
+                        {{order.status | capitalize}}
+                    </span>
+                </div>
+                <div ng-if="order.status == 'processed'">
+                    <p>
+                        Order #<span class="black">{{order.id}}</span> <span class="lightDark">•</span> <span class="black">{{order.requested_subtotal | currency}}</span>
+                    </p>
+                    <p>Customer: <span class="black">{{getCustomerNameString(order.customer.name)}}</span></p>
+                    <p>Delivery Address:</p>
+                    <p class="black">
+                        {{order.customer_address.street1}},{{order.customer_address.street2}}
+                        <br/>
+                        {{order.customer_address.city}}, {{order.customer_address.state}} {{order.customer_address.zip_code}}
+                    </p>
+                    <i class="icon ion-ios-arrow-right"></i>
+                </div>
+                <div ng-if="order.status != 'processed'">
+                    <p>
+                        Order #<span class="black">{{order.id}}</span> <span class="lightDark">•</span> <span class="black">{{order.requested_subtotal | currency}}</span>
+                    </p>
+                    <p>Customer: <span class="black">{{getCustomerNameString(order.customer.name)}}</span></p>
+                    <p>Delivery Window: <br/><span class="black">{{order.time_window}}</span></p>
+                    <p class="wrap">
+                        Closest Store:
+                        <span class="black">
+                            {{order.closest_store.name}}
+                        </span>
+                    </p>
+                </div>
+
+                <i class="icon ion-ios-arrow-right"></i>
+                <ion-option-button ng-if="!order.inShoppingList && showShoppingListButton(order)" class="button-positive"
+                                   style="font-size: 15px;white-space: normal;line-height: 16px;"
+                                   ng-click="addOrderToShoppingList(order);$event.stopPropagation();">
+                    Add to<br/>Shopping<br/>List
+                </ion-option-button>
+
+                <ion-option-button ng-if="order.inShoppingList && showShoppingListButton(order)" class="button-assertive"
+                                   style="font-size: 15px;white-space: normal;line-height: 16px;"
+                                   ng-click="removeOrderFromShoppingList(order);$event.stopPropagation();">
+                    Remove<br/>From<br/>Shopping<br/>List
+                </ion-option-button>
+                <ion-option-button ng-if="!showShoppingListButton(order)" class="button-calm"
+                                   style="font-size: 15px;white-space: normal;line-height: 16px;"
+                                   ng-click="markOrderAsDelivered(order);$event.stopPropagation();">
+                    Mark<br/>as<br/>Delivered
+                </ion-option-button>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>

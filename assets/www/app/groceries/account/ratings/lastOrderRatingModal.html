@@ -1,0 +1,65 @@
+<div class="modal rating-modal" ng-controller="LastOrderRatingModalController as viewModel" >
+    <ion-content has-bouncing="true" >
+        <div class="padding text-center" style="padding: 10px 39px; padding-bottom: 0;">
+            <h5>Rate Your Order From</h5>
+            <h4>
+                {{rateOrder.delivered_at | date:'MMMM d, y'}} at {{rateOrder.delivered_at | date:'h:mm a'}}
+            </h4>
+            <button ng-click="viewModel.viewOrderClick()"
+                    class="button button-positive button-clear button-small review-order-button">
+                View Receipt
+            </button>
+            <hr/>
+            <p class="faded">
+                {{rateOrder.driver.name | driverNameFilter}}
+            </p>
+            <img class="shopper-img" ng-src="{{rateOrder.driver.image_url ? rateOrder.driver.image_url:'img/itemNoImage.gif'}}" alt=""/>
+            <hr/>
+        </div>
+        <div class="padding" style="padding-top: 0;">
+            <div class="text-center">
+                <h5 class="faded">Rate your grubrunner anonymously.</h5>
+                <rating ng-model="viewModel.rating.rating" max="5"></rating>
+            </div>
+        </div>
+        <div ng-click="viewModel.tipClick()" ng-if="viewModel.showTipping()" class="item item-icon-right add-tip-item">
+            Tip
+            <span class="tip-amount">
+                {{ viewModel.getTipString() }}
+            </span>
+            <i class="icon ion-ios-arrow-right faded"></i>
+        </div>
+        <ion-list ng-if="viewModel.rating.rating && viewModel.rating.rating < 5">
+            <ion-item class="item-divider">
+                Please, let us know what was wrong.
+            </ion-item>
+            <ion-item class="bad-rating-reason-item"
+                      ng-class="reason.value ? 'item-reason-true' : 'item-reason-false'"
+                      collection-repeat="reason in viewModel.badRatingReasons"
+                      ng-click="viewModel.clickReason(reason)"
+                      collection-item-height="'63px'"
+                      collection-item-width="'50%'" >
+                <i class="icon check " ng-class="reason.value ? 'ion-ios-checkmark' : 'ion-ios-circle-outline'"></i>
+                <h2 class="wrap">
+                    {{reason.names[0]}}
+                    <br/>
+                    {{reason.names[1]}}
+                </h2>
+            </ion-item>
+        </ion-list>
+
+        <br/>
+        <br/>
+        <br/>
+
+    </ion-content>
+
+
+    <ion-footer-bar class="wrap footer-button-bar bar-stable">
+        <button ng-click="viewModel.saveChanges()"
+                class="button button-positive button-full"
+                ng-disabled="!viewModel.chagesToSave">
+            Submit Rating
+        </button>
+    </ion-footer-bar>
+</div>

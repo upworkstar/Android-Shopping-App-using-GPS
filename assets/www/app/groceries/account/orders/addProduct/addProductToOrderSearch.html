@@ -1,0 +1,90 @@
+
+<div class="modal" ng-controller="AddProductToOrderSearchController as viewModel" >
+    <ion-header-bar class="bar-stable  item-input-inset">
+        <div class="buttons">
+        </div>
+        <form ng-submit="viewModel.submitSearch()">
+            <div class="item-input-wrapper" style="margin-top: 0px !important; ">
+                <i class="icon ion-ios-search placeholder-icon"></i>
+                <input type="search"
+                       placeholder="Search For A Product"
+                       ng-model="viewModel.search.searchQuery">
+            </div>
+        </form>
+        <div class="buttons">
+            <button class="button button-clear" ng-click="viewModel.closeAddItemModal()"><i class="icon ion-ios-close-outline"></i></button>
+        </div>
+    </ion-header-bar>
+    <ion-content id="subSearchItemModalIonContent" on-scroll="viewModel.onScroll()" class="has-header" has-bouncing="true" >
+        <div  cg-busy="{promise:myPromise,templateUrl:'templates/searchLoading.html'}">
+            <div class="" >
+                <ion-item class="item-divider">
+                    Results: {{viewModel.searchResults.length}}
+                </ion-item>
+                <ion-item collection-repeat="product in viewModel.searchResults"
+                          class="text-center item-product-item"
+                          collection-item-width="viewModel.getItemWidth()"
+                          collection-item-height="'212px'"
+                          force-refresh-images="true"
+                          item-render-buffer="6"
+                          ng-disabled="viewModel.productInCart(product)"
+                          ng-class="product.addButton ? 'item-stable item-no-border' : ''"
+                          ng-click="viewModel.productClick(product)">
+                    <div ng-if="!product.addButton" class="product-inside-box">
+                        <div class="detail-img-wrapper">
+                            <img class="img-products-list" ng-src="{{product.images[0].url}}" />
+                        </div>
+                        <div ng-if="product.on_sale" class="corner-ribbon top-left sticky sale"><small>sale</small></div>
+                        <!--subtract number from cart-->
+                        <button class="button button-large button-clear button-positive product-item-button minus"  ng-if="productInCart(product)"  stop-event="click" ng-click="removeItemProductToOrder(product)">
+                            <i class="icon ion-ios-minus-empty" ></i>
+                        </button>
+                        <button class="button button-large button-clear button-positive product-item-button plus"  stop-event="click" ng-click="addItemProductToOrder(product)">
+                            <i class="icon ion-ios-plus-empty"></i>
+                        </button>
+                        <span ng-if="viewModel.productInCart(product)" class="badge badge-positive product-grid-cart-count-badge">
+                            <span ng-if="product.product_type == 'by weight'">
+                                {{orderLineCountForProduct(product) | number:1}} in order
+                            </span>
+                            <span ng-if="product.product_type != 'by weight'">
+                                {{orderLineCountForProduct(product) | number:0}} in order
+                            </span>
+                        </span>
+
+                        <p class="wrap grid-product-name" ng-class="product.on_sale ? 'grid-product-name-sale':''">
+                            {{product.brand_name}} {{product.name}}
+                        </p>
+                        <div class="grid-product-info">
+                            <p ng-if="product.product_type == 'normal'">
+                                {{product.size}}
+                            </p>
+                            <p>
+                                <span ng-class="product.on_sale ? 'strike-through':''">{{product.price | currency}} </span>
+                                <span class="positive" ng-if="product.on_sale">{{product.sale_price | currency}} </span>
+                                <span class="energized" ng-if="product.product_type == 'by weight'">{{product.size}}</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div ng-if="product.addButton" class="center-content add-special-item">
+                        <div class="detail-img-wrapper">
+                            <h1>
+                                <i class="icon ion-ios-plus-empty dark"></i>
+                            </h1>
+                        </div>
+                        <p class="light-weight">customize your order</p>
+                    </div>
+                </ion-item>
+            </div>
+        </div>
+    </ion-content>
+</div>
+
+<script id="templates/searchLoading.html" type="text/ng-template">
+    <div class="cg-busy-default-wrapper">
+        <div class="cg-busy-default-sign">
+            <br/>
+            <ion-spinner></ion-spinner>
+            <div class="text-center">Searching...</div>
+        </div>
+    </div>
+</script>

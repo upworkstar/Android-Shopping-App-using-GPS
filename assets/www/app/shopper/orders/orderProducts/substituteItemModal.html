@@ -1,0 +1,52 @@
+<div class="buttons" id="">
+    <div class="modal"  >
+        <ion-header-bar class="bar-stable  item-input-inset">
+            <div class="buttons">
+            </div>
+            <div class="item-input-wrapper">
+                <i class="icon ion-ios-search placeholder-icon"></i>
+                <input type="search"
+                       placeholder="Search All Products"
+                       ng-model="viewModel.search.searchQuery"
+                       ng-model-options="{ debounce: 700 }">
+            </div>
+            <div class="buttons">
+                <button class="button button-clear" ng-click="viewModel.closeSubItemModal()"><i class="icon ion-ios-close-outline"></i></button>
+            </div>
+        </ion-header-bar>
+        <ion-content id="subSearchItemModalIonContent" on-scroll="viewModel.onScroll()" class="has-header" has-bouncing="true" >
+            <div  cg-busy="{promise:myPromise,templateUrl:'templates/searchLoading.html'}">
+                <div class="">
+                    <div class="item item-divider">
+                        Results: {{viewModel.searchResults.length}}
+                    </div>
+                    <div ng-click="viewModel.chooseSubstituteProduct(product)" collection-repeat="product in viewModel.searchResults" class="item item-thumbnail-left">
+                        <img ng-src='{{product.images[0].url}}' ng-if="product.images.length > 0" onerror="this.src='img/item404.gif'" />
+                        <img ng-src='img/itemNoImage.gif' ng-if="product.images.length < 1" />
+                        <span>
+                            {{product.brand_name}} {{product.name}}
+                        </span>
+                        <p>
+                            Price: {{product.price | currency}}
+                            <br/>
+                            Size: {{product.size}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </ion-content>
+    </div>
+
+    <script id="templates/searchLoading.html" type="text/ng-template">
+        <div class="cg-busy-default-wrapper">
+            <div class="cg-busy-default-sign">
+                <br/>
+                <ion-spinner></ion-spinner>
+                <div class="text-center">Loading...</div>
+            </div>
+        </div>
+    </script>
+</div>
+
+
+

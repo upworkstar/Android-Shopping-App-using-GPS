@@ -1,0 +1,94 @@
+<ion-view >
+    <ion-nav-buttons side="right">
+        <button ng-click="viewModel.shoppingListClick(viewModel.order)"
+                ng-if="viewModel.order.status != 'processed'"
+                class="button button-small button-clear">
+                    Shopping List <i ng-if="viewModel.order.inShoppingList"  class="icon ion-ios-checkmark"></i> <i ng-if="!viewModel.order.inShoppingList" class="icon ion-ios-circle-outline"></i>
+        </button>
+    </ion-nav-buttons>
+    <ion-content class="has-header darker-content" has-bouncing="true" >
+        <div class="list card">
+            <div class="item ">
+                <div ng-if="viewModel.order.customer_order_count && viewModel.order.customer_order_count == 1" class="customer-alert-area">
+                    Customer's First Order! <br/>
+                    <small>
+                        This is this customer's first Grubroll order.
+                    </small>
+                </div>
+                <p class="text-center">Order #<b>{{viewModel.order.id}}</b></p>
+                <p>Status: <b>{{viewModel.order.status | capitalize}}</b></p>
+                <p>Delivery Window: <br/><b>{{viewModel.order.time_window}}</b></p>
+                <p>Customer Name: <b>{{viewModel.getCustomerNameString(viewModel.order.customer.name)}}</b></p>
+            </div>
+            <a  ng-if="viewModel.order.status == 'claimed' || viewModel.order.status == 'shopping'"
+                ng-click="viewModel.shopOrder(viewModel.order)" class="item item-icon-left item-icon-right">
+                <i class="icon ion-ios-cart-outline text-positive"></i>
+                <h2 class="text-positive">Shop Order <span>({{viewModel.order.order_lines.length}})</span></h2>
+                <i class="icon ion-ios-arrow-right text-positive"></i>
+            </a>
+            <ion-item class="text-center" ng-if="viewModel.order.status == 'processed'">
+                <button class="button button-calm recent-pruchase" ng-click="viewModel.orderDeliveredClick()">
+                    <i class="icon ion-android-car"></i>
+                    Mark Order as Delivered
+                </button>
+            </ion-item>
+            <div class="item text-center"  ng-if="viewModel.order.status == 'claimed' || viewModel.order.status == 'shopping'">
+                <p>
+                    Done shopping this order?
+                </p>
+                <button class="button button-positive button-outline" ng-click="viewModel.processOrderClick()">
+                    <i class="icon ion-paper-airplane"></i>
+                    Process Order
+                    <i class="icon ion-ios-arrow-right"></i>
+                </button>
+            </div>
+            <div class="item item-body">
+                <b class="dark">Order/Delivery Notes:</b>
+                <br/>
+                <span ng-if="viewModel.order.notes">{{viewModel.order.notes}}</span><span class="faded" ng-if="!viewModel.order.notes">None</span>
+            </div>
+            <ion-item class="item item-button-right">
+                <span>{{viewModel.order.customer.phone | tel}} </span>
+                <br/>
+                <button ng-click="viewModel.phoneClick(viewModel.order.customer.phone, viewModel.order.customer.name)" class="button button-positive ion-android-chat">
+                </button>
+            </ion-item>
+            <ion-item class="item item-button-right">
+                <b class="dark">Closest Store: </b>
+                <br/>
+                <a href="#" ng-click="viewModel.addressClick(viewModel.order.closest_store)">
+                    {{viewModel.order.closest_store.name}}
+                    <br/>
+                    {{viewModel.order.closest_store.street1}}
+                    <span ng-if="viewModel.order.closest_store.street2">
+                        <br/>
+                        {{viewModel.order.closest_store.street2}}
+                    </span>
+                    <br/>
+                    {{viewModel.order.closest_store.city}}, {{viewModel.order.closest_store.state}} {{viewModel.order.closest_store.zip}}
+                </a>
+                <button ng-click="viewModel.addressClick(viewModel.order.closest_store)" class="button button-positive ion-map">
+
+                </button>
+            </ion-item>
+            <ion-item class="item item-button-right">
+                <b class="dark">Delivery Address:</b>
+                <br/>
+                <a href="#" ng-click="viewModel.addressClick(viewModel.order.customer_address)">
+                    {{viewModel.order.customer_address.street1}}
+                    <span ng-if="viewModel.order.customer_address.street2">
+                        <br/>
+                        {{viewModel.order.customer_address.street2}}
+                    </span>
+                    <br/>
+                    {{viewModel.order.customer_address.city}}, {{viewModel.order.customer_address.state}} {{viewModel.order.customer_address.zip_code}}
+                </a>
+                <button ng-click="viewModel.addressClick(viewModel.order.customer_address)" class="button button-positive ion-map">
+
+                </button>
+            </ion-item>
+
+
+        </div>
+    </ion-content>
+</ion-view>

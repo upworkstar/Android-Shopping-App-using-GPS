@@ -1,0 +1,155 @@
+<ion-view view-title="{{availableTitle}}">
+    <ion-nav-buttons side="right">
+        <button  class="button button-icon icon ion-ios-refresh-empty" ng-click="refreshButtonClick()"></button>
+    </ion-nav-buttons>
+    <ion-content class="has-header " has-bouncing="true" >
+        <div>
+            <ion-refresher
+                    pulling-text="Pull to refresh..."
+                    pulling-icon="ion-ios-arrow-down"
+                    on-refresh="doRefresh()">
+            </ion-refresher>
+        </div>
+        <offline-message></offline-message>
+        <div class="item item-divider item-icon-right available-orders-section">
+            <h2 class="dark">
+                Your Offered Orders
+            </h2>
+            <span class="badge badge-positive">{{getCountForScope('offer')}}</span>
+        </div>
+        <div ng-if="loadingSpinner" class="padding text-center">
+            <ion-spinner></ion-spinner>
+        </div>
+        <div class="list">
+            <div ng-if="order.status == 'open' && order.shopper_view_scope == 'offer'"
+                 ng-repeat="order in orders | orderBy:'time_slot.starts_at'"
+                 class="card item item-button-right open-order-item "
+                 ng-class="order.promo_pay_amount ? 'promo-pay-item':''"
+                 style="padding-right: 18px;"
+                 ng-click="openPopover(order, $event)">
+                <div ng-if="order.promo_pay_amount" class="promo-pay-area">
+                    <span>
+                        ${{order.promo_pay_amount | number:0}}
+                    </span>
+                    <span class="small" >
+                    Promo Pay
+                    </span>
+                </div>
+                <p class="wrap">
+                    Order #<span class="black">{{order.id}}</span>
+                    •  <span class="black">{{order.requested_subtotal | currency}}</span>
+                </p>
+                <p>Delivery Window: <br/><span class="black">{{order.time_window}}</span></p>
+                <p class="wrap">
+                    Closest Store:
+                    <span class="black">
+                        {{order.closest_store.name}}
+                    </span>
+                </p>
+                <p class="wrap" ng-if="order.zone_name">
+                    Zone:
+                    <span class="black">
+                        {{order.zone_name}}
+                    </span>
+                </p>
+                <button ng-click="claim(order); $event.stopPropagation();"
+                         class="button button-positive button-small button-outline center center-content">
+                    <span>Claim </span>
+                </button>
+            </div>
+        </div>
+
+        <div class="item item-divider available-orders-section metro">
+            <h2 class="dark ">
+                Metro Open Orders
+            </h2>
+            <span class="badge badge-positive">{{getCountForScope('metro')}}</span>
+        </div>
+        <div ng-if="loadingSpinner" class="padding text-center">
+            <ion-spinner></ion-spinner>
+        </div>
+        <div class="list">
+            <div ng-if="order.status == 'open' && order.shopper_view_scope == 'metro'"
+                 ng-repeat="order in orders | orderBy:'time_slot.starts_at'"
+                 class="card item item-button-right open-order-item "
+                 ng-class="order.promo_pay_amount ? 'promo-pay-item':''"
+                 style="padding-right: 18px;"
+                 ng-click="openPopover(order, $event)">
+                <div ng-if="order.promo_pay_amount" class="promo-pay-area">
+                    <span>
+                        ${{order.promo_pay_amount | number:0}}
+                    </span>
+                    <span class="small" >
+                    Promo Pay
+                    </span>
+                </div>
+                <p class="wrap">
+                    Order #<span class="black">{{order.id}}</span>
+                    •  <span class="black">{{order.requested_subtotal | currency}}</span>
+                </p>
+                <p>Delivery Window: <br/><span class="black">{{order.time_window}}</span></p>
+                <p class="wrap">
+                    Closest Store:
+                    <span class="black">
+                        {{order.closest_store.name}}
+                    </span>
+                </p>
+                <p class="wrap" ng-if="order.zone_name">
+                    Zone:
+                    <span class="black">
+                        {{order.zone_name}}
+                    </span>
+                </p>
+                <button ng-click="claim(order); $event.stopPropagation();"
+                        class="button button-positive button-small button-outline center center-content">
+                    <span>Claim </span>
+                </button>
+            </div>
+        </div>
+    </ion-content>
+
+    <script id="templates/orderPopover.html" type="text/ng-template">
+        <ion-popover-view>
+            <ion-content>
+                <div class="list">
+                    <div class="item">
+                        <p class="wrap">
+                            <span class="black">{{popoverOrder.order_lines.length}}</span> products in <span class="black">{{popoverOrder.categories.length}}</span> Categories
+                        </p>
+                    </div>
+                    <div class="item">
+                        <b>Closest Store:</b>
+                        <a href="#" ng-click="addressClick(popoverOrder.closest_store)">
+                            <p>
+                                {{popoverOrder.closest_store.name}}
+                                <br/>
+                                {{popoverOrder.closest_store.street1}}
+                                <span ng-if="popoverOrder.closest_store.street2">
+                                    <br/>
+                                    {{popoverOrder.closest_store.street2}}
+                                </span>
+                                <br/>
+                                {{popoverOrder.closest_store.city}}, {{popoverOrder.closest_store.state}} {{popoverOrder.closest_store.zip}}
+                            </p>
+                        </a>
+                    </div>
+                    <div class="item">
+                        <b>Delivery Address:</b>
+                        <a href="#" ng-click="addressClick(popoverOrder.customer_address)">
+                            <p>
+                                {{popoverOrder.customer_address.street1}}
+                                <span ng-if="popoverOrder.customer_address.street2">
+                                    <br/>
+                                    {{popoverOrder.customer_address.street2}}
+                                </span>
+                                <br/>
+                                {{popoverOrder.customer_address.city}}, {{popoverOrder.customer_address.state}} {{popoverOrder.customer_address.zip_code}}
+                            </p>
+                        </a>
+                    </div>
+                </div>
+            </ion-content>
+        </ion-popover-view>
+    </script>
+
+</ion-view>

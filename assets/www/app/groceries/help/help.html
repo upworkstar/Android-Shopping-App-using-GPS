@@ -1,0 +1,27 @@
+<ion-view title="Grubroll Help" ng-controller="HelpController as viewModel">
+    <ion-content class="has-header darker-content" has-bouncing="true" >
+
+        <br/>
+        <br/>
+        <div class="list light-item-list">
+            <ion-item ng-click="viewModel.contactClick()" class="item order-history-item help item-icon-right item-icon-left">
+                <i class="icon ion-ios-telephone-outline"></i>
+                Contact Us
+                <i class="icon ion-ios-arrow-right"></i>
+            </ion-item>
+            <ion-item ng-if="viewModel.showFaq()" ng-click="viewModel.navToFaq()" style="border-bottom:1px solid;" class="item order-history-item help item-icon-right  item-icon-left">
+                <i class="icon ion-ios-help-outline"></i>
+                FAQs
+                <i class="icon ion-ios-arrow-right"></i>
+            </ion-item>
+        </div>
+        <br/>
+        <div class="padding">
+            <div class="text-center">
+<!--                <p class="faded">-->
+<!--                    {{viewModel.version.version}}({{viewModel.version.build}})-->
+<!--                </p>-->
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

@@ -1,0 +1,70 @@
+<ion-view view-title="{{viewModel.getDisplayTitleString(viewModel.selectedDate[0])}}">
+    <ion-nav-buttons side="right">
+        <button  class="button button-icon icon ion-ios-refresh-empty" ng-click="viewModel.doRefresh()"></button>
+    </ion-nav-buttons>
+    <ion-header-bar class="bar bar-subheader item-input-inset text-center">
+        <div class="text-center" style="width: 100%;">
+            <a class="button-schedule-arrow button button-positive button-clear"
+               ng-click="viewModel.previousDayClick()">
+                <i ng-show="viewModel.shouldShowPreviousDayButton()" class="icon ion-android-arrow-back"></i>
+            </a>
+            <span class="simple-select-container">
+                <select class="simple-select" ng-model="viewModel.selectedDate" ng-options="date[0] for date in viewModel.keyValueDates">
+                    <option value=""></option>
+                </select>
+            </span>
+            <a class="button-schedule-arrow button button-positive button-clear"
+               ng-click="viewModel.nextDayClick()">
+                <i ng-show="viewModel.shouldShowNextDayButton()" class="icon ion-android-arrow-forward"></i>
+            </a>
+        </div>
+    </ion-header-bar>
+    <ion-content class="has-header has-footer" has-bouncing="true" >
+        <ion-refresher
+                pulling-text="Pull to refresh..."
+                on-refresh="viewModel.doRefresh()"
+                pulling-icon="ion-ios-arrow-down">
+        </ion-refresher>
+        <offline-message></offline-message>
+        <div class="text-center padding" style="margin-top: 70px;" ng-if="viewModel.loading">
+            <ion-spinner>
+            </ion-spinner>
+            <br/>
+            <p class="faded">
+                Loading Schedule...
+            </p>
+        </div>
+        <div class="list schedule-list" ng-if="!viewModel.loading">
+            <div ng-repeat="timeSlot in viewModel.getSelectedDateTimeSlots() " class="row">
+                <div ng-click="viewModel.timeSlotClicked(timeSlot)"
+                     class="item item-checkbox item-button-right  col-80"
+                     style="padding: 11px;padding-left: 60px;"
+                     ng-class="viewModel.getSlotItemClass(timeSlot)">
+                    <label class="checkbox" >
+                        <input ng-if="!timeSlot.loading" ng-model="timeSlot.claimed" ng-disabled="!timeSlot.isClaimed() && timeSlot.isLocked()" type="checkbox">
+                        <ion-spinner ng-if="timeSlot.loading"></ion-spinner>
+                    </label>
+                    {{timeSlot.startHour}} - {{timeSlot.endHour}}
+                    <p>
+                        <p style="  line-height: 13px;" ng-repeat="zone_slot in timeSlot.zone_slots">
+                            <small>
+                                <i class="icon text-positive" ng-class="viewModel.isZoneSlotClaimed(zone_slot) ? 'ion-ios-checkmark' : 'ion-ios-circle-outline'">
+                                </i>
+                                {{zone_slot.zone_name}}
+                            </small>
+                        </p>
+                    </p>
+                </div>
+                <div class=" text-center col button button-stable" ng-click="viewModel.timeSlotMoreInfoClicked(timeSlot)" >
+                    <div class="text ">
+                        <i class="icon ion-ios-settings-strong"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+
+    <ion-footer-bar class="bar-positive" ng-click="viewModel.openZonesModal ()">
+        <h1 class="title">Default Zones <i class="icon ion-ios-arrow-forward"></i></h1>
+    </ion-footer-bar>
+</ion-view>

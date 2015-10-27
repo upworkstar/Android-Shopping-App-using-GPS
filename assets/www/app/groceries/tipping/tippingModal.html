@@ -1,0 +1,41 @@
+
+<div class="modal simple-modal" ng-controller="TippingModalController as viewModel" >
+    <ion-header-bar class="bar-stable">
+        <h1 class="title">Add Tip</h1>
+        <div class="buttons">
+            <button class="button button-clear" ng-click="viewModel.closeModal()"><i class="icon ion-ios-close-empty"></i></button>
+        </div>
+    </ion-header-bar>
+    <ion-content class="has-header" has-bouncing="true" >
+        <div class="tip-buttons">
+            <div class="text-center">
+                <h5 class="faded">
+                    Tipping Available Until {{viewModel.tipUntilTimeString()}}
+                </h5>
+                <div class="button-bar">
+                    <a class="button button-positive tip-button"
+                       ng-repeat="tipOption in viewModel.tipOptions"
+                       ng-click="viewModel.selectTipOption(tipOption)"
+                       ng-class="tipOption == viewModel.tipOption ? '':'button-outline'">
+                        {{tipOption.text}}
+                    </a>
+                </div>
+                <div class="text-center">
+                    <div class="list ">
+                        <label class="item item-input">
+                            <span class="input-label">Other Tip Amount</span>
+                            <input class="other-amount-input" ui-money-mask type="tel" ng-model="viewModel.otherTipAmount" placeholder="$ 0.00">
+                        </label>
+                    </div>
+                </div>
+                <div class="padding" ng-if="viewModel.otherAmount">
+                    <button ng-click="viewModel.saveOtherAmount()" class="button button-positive button-clear">
+                        Save
+                    </button>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</div>
+
+

@@ -1,0 +1,48 @@
+<ion-view title="Help" ng-controller="AboutController as viewModel">
+    <ion-nav-buttons side="right">
+    </ion-nav-buttons>
+    <ion-content class="has-header darker-content" has-bouncing="true" >
+
+            <div class="">
+                <div class="padding faded text-center">
+                    Grubrunner Support Info
+                </div>
+
+                <div class="item">
+                    <p>
+                        <b>Platform: </b>{{viewModel.currentPlatform}} {{viewModel.currentPlatformVersion}}
+                    </p>
+                </div>
+                <div class="item">
+                    <p>
+                        <b>App Version: </b>{{viewModel.version.version}}({{viewModel.version.build}})
+                    </p>
+                </div>
+                <ion-item class="item item-button-right" >
+                    <p>
+                        <b>
+                            Call Grubrunner Support
+                        </b>
+                        <br/> 877-725-1319
+                    </p>
+                    <a ng-click="viewModel.openUrl('tel:+1-877-725-1319')" class="button button-positive button-iconicon  ion-ios-telephone-outline">
+
+                    </a>
+                </ion-item>
+                <ion-item  class="item item-button-right">
+                    <p>
+                        <b>
+                            Email Grubrunner Support
+                        </b>
+                        <br/> support@grubroll.com
+                    </p>
+                    <a ng-click="viewModel.openUrl('mailto:support@grubroll.com?subject=Shopper%20Support')" class="button button-positive button-iconicon  ion-ios-email-outline">
+
+                    </a>
+                </ion-item>
+            </div>
+
+
+        </div>
+    </ion-content>
+</ion-view>

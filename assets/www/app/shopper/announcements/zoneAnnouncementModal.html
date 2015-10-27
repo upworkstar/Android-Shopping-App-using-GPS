@@ -1,0 +1,28 @@
+<div class="modal simple-modal">
+    <ion-header-bar class="bar-light">
+        <h1 class="title"></h1>
+        <div class="buttons">
+            <button class="button button-clear" ng-click="closeZoneAnnouncementModal()"><i class="icon ion-ios-close-empty"></i></button>
+        </div>
+    </ion-header-bar>
+    <ion-content class="">
+        <div class="padding text-center" style="margin-top:1%;">
+            <h1 class="positive" style="font-weight: 200;">
+                <i class="icon ion-happy"></i>
+                <br/>
+                Zones Have Arrived!
+            </h1>
+            <h4>
+                Zones will allow you to choose what areas of the city you want to service.
+            </h4>
+            <p>
+                Please go to the Availability section of the app and choose what zones you would like to service.
+                On the Zone Setup screen you can click the <i class="icon ion-ios-information-outline"></i> to see what stores are covered in that zone.
+                You will get orders for Time Windows you have signed up for in the Zones you have selected.
+            </p>
+            <button ng-if="!hideNavButtonOnZoneInfoModal" class="button button-positive" ng-click="goToAvailabilityScreenForZones()">
+                Setup Your Zones <i class="icon ion-arrow-right-c"></i>
+            </button>
+        </div>
+    </ion-content>
+</div>

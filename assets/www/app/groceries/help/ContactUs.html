@@ -1,0 +1,20 @@
+<ion-view title="Contact Us" ng-controller="ContactUsController as viewModel">
+    <ion-content class="has-header darker-content" has-bouncing="true" >
+        <br/>
+        <br/>
+        <div class="list light-item-list">
+            <ion-item ng-click="viewModel.emailClick()" class="item order-history-item help item-icon-right  item-icon-left">
+                <i class="icon ion-ios-email-outline"></i>
+                Email
+                <p>support@grubroll.com</p>
+                <i class="icon ion-ios-arrow-right"></i>
+            </ion-item>
+            <ion-item ng-click="viewModel.callClick()" class="item order-history-item help item-icon-right item-icon-left">
+                <i class="icon ion-ios-telephone-outline"></i>
+                Call
+                <p>877-715-1319</p>
+                <i class="icon ion-ios-arrow-right"></i>
+            </ion-item>
+        </div>
+    </ion-content>
+</ion-view>

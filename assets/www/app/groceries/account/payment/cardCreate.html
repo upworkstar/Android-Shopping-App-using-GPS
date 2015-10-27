@@ -1,0 +1,41 @@
+<ion-view title="Create Card">
+    <ion-nav-buttons side="right">
+
+    </ion-nav-buttons>
+    <ion-content class="has-header stable-content" has-bouncing="true" >
+        <br/>
+        <h1 class="center">{{title}}</h1>
+        <form class="login-form large-padding" name="loginForm" novalidate="novalidate" on-valid-submit="saveCard(card)">
+            <div class="list">
+                <label style="margin:1px;" class="item item-input item-stacked-label  validated">
+                    <span class="input-label">Card Number</span>
+                    <input type="tel" ng-model="card.number"
+                           ng-minlength="15"
+                           ng-maxlength="20" name="number" placeholder="################" required="true">
+                </label>
+                <label style="margin:1px;" class="item item-input item-stacked-label  validated">
+                    <span class="input-label">Expiration Month</span>
+                    <input ng-model="card.exp_month" name="exp_month"
+                           ng-minlength="2"
+                           ng-maxlength="2" type="tel" placeholder="MM" required="true">
+                </label>
+                <label style="margin:1px;" class="item item-input item-stacked-label  validated">
+                    <span class="input-label">Expiration Year</span>
+                    <input ng-model="card.exp_year"
+                           ng-minlength="4"
+                           ng-maxlength="4" name="exp_year" type="tel" placeholder="YYYY" required="true">
+                </label>
+                <label style="margin:1px;" class="item item-input item-stacked-label  validated">
+                    <span class="input-label">Security Code <span class="dark">(CVC or CVV)</span></span>
+                    <input ng-model="card.cvc" name="cvc"
+                           ng-minlength="3"
+                           ng-maxlength="4" type="tel" placeholder="###" required="true">
+                </label>
+                <button class="button button-positive button-clear button-full" type="submit">
+                    Save
+                </button>
+            </div>
+        </form>
+
+    </ion-content>
+</ion-view>

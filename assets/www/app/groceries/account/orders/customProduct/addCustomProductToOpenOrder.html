@@ -1,0 +1,44 @@
+<div class="buttons" id="" ng-controller="AddCustomProductToOrderController as viewModel">
+    <div class="modal"  >
+        <ion-header-bar class="bar-stable">
+            <h1 class="title">
+                {{viewModel.title}}
+            </h1>
+            <div class="buttons">
+                <button class="button button-clear" ng-click="viewModel.cancelAddCustomProduct()"><i class="icon ion-ios-close-outline"></i></button>
+            </div>
+        </ion-header-bar>
+        <ion-content class="has-header" has-bouncing="true" >
+            <div class="list">
+                <label class="item item-input item-stacked-label">
+                    <div class="input-label">
+                        Description:
+                    </div>
+                    <textarea id="txtnotes" ng-model="viewModel.customProduct.name" rows="5" placeholder=""></textarea>
+                </label>
+                <div class="item  item-input">
+                    <div class="input-label">
+                        Quantity:
+                    </div>
+                    <div class="text-center">
+                        <button class="button  button-outline button-assertive" stop-event="click" ng-click="viewModel.subtractFromCustomItemCount()">
+                            <i class="icon ion-ios-minus-outline" > </i>
+                        </button>
+                        <button class="button  button-outline button-dark disabled">
+                            {{viewModel.customProduct.qty}}
+                        </button>
+                        <button class="button  button-outline button-positive" stop-event="click" ng-click="viewModel.addToCustomItemCount('asdfasdf')">
+                            <i class="icon ion-ios-plus-outline" > </i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <button class="button button-positive button-outline" ng-disabled="!viewModel.customProduct.name" ng-click="viewModel.saveCustomProduct()">
+                    Customize your order
+                </button>
+            </div>
+        </ion-content>
+    </div>
+</div>
+

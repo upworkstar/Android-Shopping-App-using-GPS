@@ -1,0 +1,60 @@
+
+<div class="modal simple-modal" ng-controller="BankAccountInfoController as viewModel" >
+    <ion-header-bar class="bar-stable">
+        <h1 class="title">Bank Account</h1>
+        <div class="buttons">
+            <button class="button button-clear" ng-click="viewModel.cancel()"><i class="icon ion-ios-close-empty"></i></button>
+        </div>
+    </ion-header-bar>
+    <ion-content class="has-header" has-bouncing="true" >
+        <div class="padding text-center">
+            <p class="faded">
+                Please provide your bank account info for payment.
+            </p>
+            <button ng-click="viewModel.showExampleCheck()" class="button button-clear button-small button-positive">
+                <i class="icon ion-ios-help-outline"></i> Example Check
+            </button>
+        </div>
+        <div class="list">
+            <label class="item item-input  item-stacked-label">
+                <span class="input-label">Bank Name</span>
+                <input ng-model="viewModel.bankInfo.bank_name"
+                       type="text"
+                       placeholder="Gringotts Bank">
+            </label>
+            <label class="item item-input  item-stacked-label">
+                <span class="input-label">Routing Number</span>
+                <input ng-model="viewModel.bankInfo.routing_number"
+                       type="text"
+                       placeholder="221371356">
+            </label>
+            <div class="item item-divider text-center wrap" ng-if="viewModel.account_number_last_4">
+                Saved Account Number: *****{{viewModel.account_number_last_4}}
+            </div>
+            <label class="item item-input  item-stacked-label">
+                <span class="input-label">Account Number</span>
+                <input ng-model="viewModel.bankInfo.account_number"
+                       type="text"
+                       placeholder="0123456789">
+            </label>
+        </div>
+        <div class="padding text-center">
+            <button ng-click="viewModel.save()"
+                    class="button button-positive">
+                Save Bank
+            </button>
+        </div>
+    </ion-content>
+</div>
+
+<script id="image-modal.html" type="text/ng-template">
+    <div class="modal image-modal transparent"
+         ng-click="closeImageModal()">
+        <ion-slide-box on-slide-changed="viewModel.imageSlideChanged()"
+                       show-pager="false">
+            <ion-slide>
+                <img class="fullscreen-image" image-lazy-src="{{viewModel.imageModalImageUrl}}" image-lazy-loader="dots">
+            </ion-slide>
+        </ion-slide-box>
+    </div>
+</script>
